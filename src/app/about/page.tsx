@@ -316,8 +316,9 @@ export default function AboutPage() {
 
                 <button
                   type="button"
+                  aria-label="Submit another system audit"
                   onClick={() => setSubmittedTicket(null)}
-                  className="px-4 py-2 rounded bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 transition-colors"
+                  className="px-5 py-2.5 min-h-[44px] inline-flex items-center justify-center rounded bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 transition-colors font-medium text-xs"
                 >
                   Submit Another System Audit
                 </button>
@@ -412,11 +413,13 @@ export default function AboutPage() {
                         <button
                           key={opt}
                           type="button"
+                          aria-label={`Select bottleneck: ${opt}`}
+                          aria-pressed={isSelected}
                           onClick={() => setSelectedBottleneck(opt)}
-                          className={`p-3 rounded-lg text-left text-xs font-mono transition-all border ${
+                          className={`p-3 min-h-[44px] flex items-center rounded-lg text-left text-xs font-mono transition-all border ${
                             isSelected
                               ? "bg-emerald-500/10 border-emerald-500/60 text-emerald-400 font-semibold"
-                              : "bg-zinc-950/60 border-zinc-800/80 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700"
+                              : "bg-zinc-950/60 border-zinc-800/80 text-zinc-300 hover:text-white hover:border-zinc-700"
                           }`}
                         >
                           <div className="flex items-center gap-2">
@@ -497,11 +500,11 @@ export default function AboutPage() {
             </div>
 
             <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 font-mono text-xs text-zinc-300">
-              <span className="relative flex h-2 w-2">
+              <span className="relative flex h-2 w-2" aria-hidden="true">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
-              <span className="text-zinc-500">STATUS:</span>
+              <span className="text-zinc-400 font-medium">STATUS:</span>
               <span className="text-emerald-400 font-semibold">
                 ACCEPTING AUDITS &amp; CONTRACTS
               </span>
@@ -514,19 +517,20 @@ export default function AboutPage() {
               href="https://github.com"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Visit GitHub Profile (opens in new tab)"
               className="p-5 rounded-xl bg-zinc-900/60 border border-zinc-800/80 hover:border-emerald-500/40 transition-colors space-y-3 group"
             >
               <div className="flex items-center justify-between">
                 <div className="p-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-300 group-hover:text-emerald-400 transition-colors">
                   <GithubIcon className="w-5 h-5" />
                 </div>
-                <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-emerald-400 group-hover:translate-x-0.5 transition-all" />
+                <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-emerald-400 group-hover:translate-x-0.5 transition-all" aria-hidden="true" />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-zinc-200 group-hover:text-white font-sans">
+                <h3 className="text-sm font-bold text-zinc-200 group-hover:text-white font-sans">
                   GitHub Profile
-                </h4>
-                <p className="text-xs text-zinc-500 font-mono mt-0.5">
+                </h3>
+                <p className="text-xs text-zinc-400 font-mono mt-0.5 font-medium">
                   Direct code inspection &amp; open source
                 </p>
               </div>
@@ -537,19 +541,20 @@ export default function AboutPage() {
               href="https://linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Visit LinkedIn Profile (opens in new tab)"
               className="p-5 rounded-xl bg-zinc-900/60 border border-zinc-800/80 hover:border-cyan-500/40 transition-colors space-y-3 group"
             >
               <div className="flex items-center justify-between">
                 <div className="p-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-300 group-hover:text-cyan-400 transition-colors">
                   <LinkedinIcon className="w-5 h-5" />
                 </div>
-                <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all" />
+                <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all" aria-hidden="true" />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-zinc-200 group-hover:text-white font-sans">
+                <h3 className="text-sm font-bold text-zinc-200 group-hover:text-white font-sans">
                   LinkedIn Network
-                </h4>
-                <p className="text-xs text-zinc-500 font-mono mt-0.5">
+                </h3>
+                <p className="text-xs text-zinc-400 font-mono mt-0.5 font-medium">
                   Professional experience &amp; recommendations
                 </p>
               </div>
@@ -560,36 +565,38 @@ export default function AboutPage() {
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="p-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-300 group-hover:text-emerald-400 transition-colors">
-                    <Mail className="w-5 h-5" />
+                    <Mail className="w-5 h-5" aria-hidden="true" />
                   </div>
                   <button
                     type="button"
+                    aria-label="Copy email address to clipboard"
                     onClick={handleCopyEmail}
-                    className="text-xs font-mono text-zinc-400 hover:text-emerald-400 flex items-center gap-1 transition-colors"
+                    className="text-xs font-mono text-zinc-300 hover:text-emerald-400 p-2 min-h-[44px] min-w-[44px] inline-flex items-center justify-center gap-1.5 transition-colors font-medium rounded-md hover:bg-zinc-800/60"
                   >
                     {copiedEmail ? (
                       <>
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        <Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" />
                         <span className="text-emerald-400">Copied</span>
                       </>
                     ) : (
                       <>
-                        <Copy className="w-3.5 h-3.5" />
+                        <Copy className="w-3.5 h-3.5" aria-hidden="true" />
                         <span>Copy</span>
                       </>
                     )}
                   </button>
                 </div>
-                <h4 className="text-sm font-bold text-zinc-200 group-hover:text-white font-sans">
+                <h3 className="text-sm font-bold text-zinc-200 group-hover:text-white font-sans">
                   Direct Email
-                </h4>
-                <p className="text-xs text-zinc-500 font-mono mt-0.5 break-all">
+                </h3>
+                <p className="text-xs text-zinc-400 font-mono mt-0.5 break-all font-medium">
                   contact@systems-architect.dev
                 </p>
               </div>
               <a
                 href="mailto:contact@systems-architect.dev"
-                className="text-[11px] font-mono text-emerald-400 hover:underline pt-1 inline-block"
+                aria-label="Send email to contact@systems-architect.dev"
+                className="text-[11px] font-mono text-emerald-400 hover:underline min-h-[44px] inline-flex items-center font-medium"
               >
                 &gt; Launch mailto
               </a>
@@ -600,19 +607,20 @@ export default function AboutPage() {
               href="https://t.me/"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Connect via Direct Messenger (opens in new tab)"
               className="p-5 rounded-xl bg-zinc-900/60 border border-zinc-800/80 hover:border-cyan-500/40 transition-colors space-y-3 group"
             >
               <div className="flex items-center justify-between">
                 <div className="p-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-300 group-hover:text-cyan-400 transition-colors">
                   <TelegramIcon className="w-5 h-5" />
                 </div>
-                <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all" />
+                <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all" aria-hidden="true" />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-zinc-200 group-hover:text-white font-sans">
+                <h3 className="text-sm font-bold text-zinc-200 group-hover:text-white font-sans">
                   Direct Messenger
-                </h4>
-                <p className="text-xs text-zinc-500 font-mono mt-0.5">
+                </h3>
+                <p className="text-xs text-zinc-400 font-mono mt-0.5 font-medium">
                   Telegram / WhatsApp async triage
                 </p>
               </div>

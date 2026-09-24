@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
@@ -16,6 +16,12 @@ const monoFont = JetBrains_Mono({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#09090b",
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   title: "Backend Software Engineer & Systems Architect | The Backbone",
   description:
@@ -30,6 +36,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${sansFont.variable} ${monoFont.variable} dark antialiased`}
     >
       <body className="bg-zinc-950 text-zinc-100 selection:bg-emerald-500 selection:text-black min-h-screen flex flex-col justify-between font-sans">

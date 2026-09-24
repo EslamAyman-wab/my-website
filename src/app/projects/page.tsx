@@ -76,7 +76,7 @@ export default function ProjectsPage() {
         {/* ========================================================================= */}
         <div className="space-y-4 max-w-4xl">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 text-xs font-mono text-cyan-400">
-            <span className="font-bold">{"//"}</span>
+            <span className="font-bold" aria-hidden="true">{"//"}</span>
             <span className="tracking-wider uppercase">
               Architecture, Systems &amp; Hardware Infrastructure
             </span>
@@ -89,7 +89,7 @@ export default function ProjectsPage() {
             </span>
           </h1>
 
-          <p className="text-base sm:text-lg text-zinc-400 font-sans leading-relaxed max-w-2xl">
+          <p className="text-base sm:text-lg text-zinc-300 font-sans leading-relaxed max-w-2xl">
             Real backend architectures, database schemas, and hands-on bare-metal server management.
             Explore live homelab telemetry, incident post-mortems, and production transaction engines.
           </p>
@@ -98,17 +98,17 @@ export default function ProjectsPage() {
         {/* ========================================================================= */}
         {/* 2. SIGNATURE FEATURE: WALL-E HOMELAB SERVER DASHBOARD                     */}
         {/* ========================================================================= */}
-        <section className="space-y-6">
+        <section className="space-y-6" aria-labelledby="section-walle-heading">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-zinc-800/80 pb-4">
             <div>
-              <span className="text-xs font-mono text-emerald-400 font-semibold">
+              <span className="text-xs font-mono text-emerald-400 font-semibold" aria-hidden="true">
                 {"// SECTION 01"}
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-zinc-100 font-sans mt-0.5">
+              <h2 id="section-walle-heading" className="text-2xl sm:text-3xl font-bold text-zinc-100 font-sans mt-0.5">
                 Bare-Metal Server Architecture: WALL-E
               </h2>
             </div>
-            <span className="text-xs font-mono text-zinc-500">
+            <span className="text-xs font-mono text-zinc-400 font-medium">
               TELEMETRY REFRESH: REALTIME HOST
             </span>
           </div>
@@ -120,17 +120,17 @@ export default function ProjectsPage() {
         {/* ========================================================================= */}
         {/* 3. CASE STUDY SPOTLIGHT: WALL-E INCIDENT POST-MORTEM                      */}
         {/* ========================================================================= */}
-        <section className="space-y-6">
+        <section className="space-y-6" aria-labelledby="section-incident-heading">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-zinc-800/80 pb-4">
             <div>
-              <span className="text-xs font-mono text-emerald-400 font-semibold">
+              <span className="text-xs font-mono text-emerald-400 font-semibold" aria-hidden="true">
                 {"// SECTION 02"}
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-zinc-100 font-sans mt-0.5">
+              <h2 id="section-incident-heading" className="text-2xl sm:text-3xl font-bold text-zinc-100 font-sans mt-0.5">
                 Incident Report #01: Concurrency Under Pressure
               </h2>
             </div>
-            <span className="text-xs font-mono text-zinc-500">
+            <span className="text-xs font-mono text-zinc-400 font-medium">
               SEVERITY: P1 · STATUS: RESOLVED
             </span>
           </div>
@@ -140,13 +140,13 @@ export default function ProjectsPage() {
             <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-zinc-950 border border-zinc-800/90 font-mono text-xs">
               <div className="flex items-center gap-3">
                 <span className="p-2 rounded bg-amber-500/10 border border-amber-500/20 text-amber-400">
-                  <ShieldAlert className="w-4 h-4" />
+                  <ShieldAlert className="w-4 h-4" aria-hidden="true" />
                 </span>
                 <div>
                   <div className="text-zinc-200 font-bold">
                     POST-MORTEM: PEAK STREAMING BUFFERING COLLAPSE
                   </div>
-                  <div className="text-zinc-500 text-[11px]">
+                  <div className="text-zinc-400 text-[11px] font-medium">
                     TARGET NODE: WALL-E (TrueNAS) · SERVICE: JELLYFIN
                   </div>
                 </div>
@@ -154,11 +154,11 @@ export default function ProjectsPage() {
 
               <div className="flex items-center gap-4 text-[11px]">
                 <div>
-                  <span className="text-zinc-500 block">TIME TO MITIGATION</span>
+                  <span className="text-zinc-400 block font-medium">TIME TO MITIGATION</span>
                   <span className="text-emerald-400 font-bold">18 Minutes</span>
                 </div>
                 <div>
-                  <span className="text-zinc-500 block">DATA LOSS</span>
+                  <span className="text-zinc-400 block font-medium">DATA LOSS</span>
                   <span className="text-emerald-400 font-bold">0 Bytes</span>
                 </div>
               </div>
@@ -169,13 +169,13 @@ export default function ProjectsPage() {
               {/* The Crisis */}
               <div className="p-5 rounded-xl bg-zinc-950/60 border border-zinc-800/80 space-y-3">
                 <div className="flex items-center gap-2 text-xs font-mono text-amber-400 font-semibold">
-                  <AlertTriangle className="w-4 h-4" />
+                  <AlertTriangle className="w-4 h-4" aria-hidden="true" />
                   <span>01 // THE CRISIS</span>
                 </div>
                 <h3 className="text-sm font-bold text-zinc-200 font-sans">
                   Simultaneous 4K/1080p Streams Spike
                 </h3>
-                <p className="text-xs text-zinc-400 font-sans leading-relaxed">
+                <p className="text-xs text-zinc-300 font-sans leading-relaxed">
                   During a family gathering, 5 simultaneous media streams started playing across multiple rooms.
                   Playback began stuttering, I/O latency jumped from &lt; 5ms to &gt; 850ms, and Jellyfin web UI stopped responding.
                 </p>
@@ -184,13 +184,13 @@ export default function ProjectsPage() {
               {/* Root Cause Analysis */}
               <div className="p-5 rounded-xl bg-zinc-950/60 border border-zinc-800/80 space-y-3">
                 <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 font-semibold">
-                  <Cpu className="w-4 h-4" />
+                  <Cpu className="w-4 h-4" aria-hidden="true" />
                   <span>02 // ROOT CAUSE ANALYSIS</span>
                 </div>
                 <h3 className="text-sm font-bold text-zinc-200 font-sans">
                   Transcode Thrashing &amp; ZFS ARC Eviction
                 </h3>
-                <p className="text-xs text-zinc-400 font-sans leading-relaxed">
+                <p className="text-xs text-zinc-300 font-sans leading-relaxed">
                   Two mobile clients requested unsupported codecs, triggering simultaneous FFmpeg software CPU transcodes on the 3rd-gen i5.
                   This caused 100% CPU lock, starved the ZFS ARC cache, and generated disk head thrashing across the 1TB HDD media pool.
                 </p>
@@ -199,13 +199,13 @@ export default function ProjectsPage() {
               {/* Engineering Fix */}
               <div className="p-5 rounded-xl bg-zinc-950/60 border border-zinc-800/80 space-y-3">
                 <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 font-semibold">
-                  <CheckCircle2 className="w-4 h-4" />
+                  <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
                   <span>03 // THE ENGINEERING FIX</span>
                 </div>
                 <h3 className="text-sm font-bold text-zinc-200 font-sans">
                   Direct Play Enforcement &amp; Resource Pinning
                 </h3>
-                <p className="text-xs text-zinc-400 font-sans leading-relaxed">
+                <p className="text-xs text-zinc-300 font-sans leading-relaxed">
                   Enforced client-side Direct Play video profiles (H.264/AAC compatibility fallback), isolated transcode scratch storage into SSD RAM-disk (/dev/shm), and set container CPU quotas to preserve 20% headroom for TrueNAS kernel operations.
                 </p>
               </div>
@@ -214,7 +214,7 @@ export default function ProjectsPage() {
             {/* Business & Production Takeaway Box */}
             <div className="p-5 sm:p-6 rounded-xl bg-gradient-to-r from-emerald-950/30 via-zinc-900 to-zinc-950 border border-emerald-500/30 space-y-2 font-sans">
               <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 font-bold uppercase tracking-wider">
-                <Zap className="w-3.5 h-3.5" />
+                <Zap className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>Production Engineering Takeaway for High-Scale Applications</span>
               </div>
               <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
@@ -227,17 +227,17 @@ export default function ProjectsPage() {
         {/* ========================================================================= */}
         {/* 4. PRODUCTION BACKEND CASE STUDIES                                        */}
         {/* ========================================================================= */}
-        <section className="space-y-6">
+        <section className="space-y-6" aria-labelledby="section-production-heading">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-zinc-800/80 pb-4">
             <div>
-              <span className="text-xs font-mono text-emerald-400 font-semibold">
+              <span className="text-xs font-mono text-emerald-400 font-semibold" aria-hidden="true">
                 {"// SECTION 03"}
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-zinc-100 font-sans mt-0.5">
+              <h2 id="section-production-heading" className="text-2xl sm:text-3xl font-bold text-zinc-100 font-sans mt-0.5">
                 Production Backend Architectures
               </h2>
             </div>
-            <span className="text-xs font-mono text-zinc-500">
+            <span className="text-xs font-mono text-zinc-400 font-medium">
               DISCIPLINE: CONCURRENCY, DATA INTEGRITY &amp; ISOLATION
             </span>
           </div>
@@ -253,14 +253,14 @@ export default function ProjectsPage() {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-800/80 pb-4">
                     <div className="flex items-center gap-3">
                       <div className="p-2.5 rounded-lg bg-zinc-950 border border-zinc-800 text-emerald-400">
-                        <Icon className="w-5 h-5" />
+                        <Icon className="w-5 h-5" aria-hidden="true" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="text-xs font-mono font-bold text-emerald-400">
                             [{project.id}]
                           </span>
-                          <span className="text-[11px] font-mono text-zinc-500">
+                          <span className="text-[11px] font-mono text-zinc-400 font-medium">
                             {project.tag}
                           </span>
                         </div>
@@ -270,7 +270,7 @@ export default function ProjectsPage() {
                       </div>
                     </div>
 
-                    <span className="self-start sm:self-center px-2.5 py-1 rounded bg-zinc-950 border border-zinc-800 text-[11px] font-mono text-zinc-400">
+                    <span className="self-start sm:self-center px-2.5 py-1 rounded bg-zinc-950 border border-zinc-800 text-[11px] font-mono text-zinc-300 font-medium">
                       {project.status}
                     </span>
                   </div>
@@ -280,7 +280,7 @@ export default function ProjectsPage() {
                     {project.tech.map((t) => (
                       <span
                         key={t}
-                        className="px-2.5 py-1 rounded bg-zinc-950 border border-zinc-800/80 font-mono text-xs text-zinc-300"
+                        className="px-2.5 py-1 rounded bg-zinc-950 border border-zinc-800/80 font-mono text-xs text-zinc-200"
                       >
                         {t}
                       </span>
@@ -294,16 +294,16 @@ export default function ProjectsPage() {
 
                   {/* Architecture Highlights */}
                   <div className="space-y-2 pt-2">
-                    <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block font-semibold">
+                    <span className="text-xs font-mono text-zinc-300 uppercase tracking-wider block font-semibold">
                       {"// ARCHITECTURAL SAFEGUARDS"}
                     </span>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       {project.architectureHighlights.map((point, idx) => (
                         <div
                           key={idx}
-                          className="p-3 rounded-lg bg-zinc-950/70 border border-zinc-800/70 text-xs font-sans text-zinc-400 leading-relaxed flex items-start gap-2"
+                          className="p-3 rounded-lg bg-zinc-950/70 border border-zinc-800/70 text-xs font-sans text-zinc-300 leading-relaxed flex items-start gap-2"
                         >
-                          <span className="text-emerald-400 font-mono font-bold text-xs mt-0.5">
+                          <span className="text-emerald-400 font-mono font-bold text-xs mt-0.5" aria-hidden="true">
                             &gt;
                           </span>
                           <span>{point}</span>
@@ -319,13 +319,13 @@ export default function ProjectsPage() {
                         key={m.label}
                         className="p-3.5 rounded-xl bg-zinc-950 border border-zinc-800/90 font-mono"
                       >
-                        <span className="text-[10px] text-zinc-500 block uppercase tracking-wider">
+                        <span className="text-[10px] text-zinc-400 block uppercase tracking-wider font-medium">
                           {m.label}
                         </span>
                         <span className="text-lg font-bold text-zinc-100 block mt-0.5">
                           {m.val}
                         </span>
-                        <span className="text-[11px] text-zinc-400 block font-sans mt-0.5">
+                        <span className="text-[11px] text-zinc-300 block font-sans mt-0.5">
                           {m.detail}
                         </span>
                       </div>
@@ -340,13 +340,13 @@ export default function ProjectsPage() {
         {/* ========================================================================= */}
         {/* 5. BOTTOM CALL TO ACTION                                                  */}
         {/* ========================================================================= */}
-        <section className="pb-8">
+        <section className="pb-8" aria-label="System Health Check Call to Action">
           <div className="rounded-2xl bg-zinc-900 border border-zinc-800 p-8 sm:p-12 text-center space-y-6 relative overflow-hidden">
             <div className="pointer-events-none absolute -right-20 -top-20 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl" />
 
             <div className="relative z-10 space-y-3 max-w-2xl mx-auto">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-xs font-mono text-emerald-400">
-                <Terminal className="w-3.5 h-3.5" />
+                <Terminal className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>ZERO-DOWNTIME ARCHITECTURAL ENGINEERING</span>
               </span>
 
@@ -354,7 +354,7 @@ export default function ProjectsPage() {
                 Want this level of architectural stability for your backend?
               </h2>
 
-              <p className="text-sm sm:text-base text-zinc-400 font-sans leading-relaxed">
+              <p className="text-sm sm:text-base text-zinc-300 font-sans leading-relaxed">
                 Whether you need to eliminate database deadlocks, architect high-concurrency checkout flows, or build bulletproof server infrastructure, let&apos;s talk systems.
               </p>
             </div>
@@ -362,11 +362,12 @@ export default function ProjectsPage() {
             <div className="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
               <Link
                 href="/about#audit"
+                aria-label="Request a System Health Check"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-mono text-xs sm:text-sm font-bold tracking-wider transition-all duration-200 shadow-lg shadow-emerald-500/20 group"
               >
-                <ShieldCheck className="w-4 h-4 text-zinc-950" />
+                <ShieldCheck className="w-4 h-4 text-zinc-950" aria-hidden="true" />
                 <span>[ Request a System Health Check ]</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
               </Link>
             </div>
           </div>

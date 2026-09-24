@@ -116,55 +116,35 @@ export default function Home() {
         {/* 1. HERO SECTION                                                           */}
         {/* ========================================================================= */}
         <section className="flex flex-col items-center text-center space-y-8 pt-4 sm:pt-8">
-          {/* Monospace Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-800 text-xs font-mono text-zinc-300 shadow-sm"
-          >
+          {/* Monospace Badge — plain div for instant LCP render */}
+          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-800 text-xs font-mono text-zinc-300 shadow-sm">
             <span className="text-emerald-400 font-bold">{"//"}</span>
             <span className="tracking-wider uppercase">
               Specialized Backend &amp; Systems Architect
             </span>
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          </motion.div>
+          </div>
 
-          {/* Main Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl font-sans"
-          >
+          {/* Main Headline — plain h1 for immediate LCP */}
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl font-sans">
             The Backbone of Scalable Applications &amp;{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
               Resilient Systems.
             </span>
-          </motion.h1>
+          </h1>
 
-          {/* Sub-headline */}
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-base sm:text-lg lg:text-xl text-zinc-400 max-w-3xl leading-relaxed font-sans"
-          >
+          {/* Sub-headline — plain p for immediate render */}
+          <p className="text-base sm:text-lg lg:text-xl text-zinc-400 max-w-3xl leading-relaxed font-sans">
             I architect high-throughput backend APIs, optimize sluggish SQL databases,
             and build reliable server infrastructure. Helping SaaS platforms and
             E-commerce stores stay fast, secure, and unbreakable under peak load.
-          </motion.p>
+          </p>
 
-          {/* Dual CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center gap-4 pt-2 w-full sm:w-auto"
-          >
+          {/* Dual CTAs — plain div, min-h-[44px] for tap targets */}
+          <div className="flex flex-col sm:flex-row items-center gap-4 pt-2 w-full sm:w-auto">
             <Link
               href="/about#audit"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-mono text-xs sm:text-sm font-bold tracking-wider transition-all duration-200 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 group"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 min-h-[44px] rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-mono text-xs sm:text-sm font-bold tracking-wider transition-all duration-200 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 group"
             >
               <ShieldCheck className="w-4 h-4 text-zinc-950" />
               <span>[ Request Free System Audit ]</span>
@@ -173,18 +153,18 @@ export default function Home() {
 
             <Link
               href="/projects"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 hover:text-white border border-zinc-700/80 hover:border-zinc-500 font-mono text-xs sm:text-sm font-semibold tracking-wider transition-all duration-200"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 min-h-[44px] rounded-lg bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 hover:text-white border border-zinc-700/80 hover:border-zinc-500 font-mono text-xs sm:text-sm font-semibold tracking-wider transition-all duration-200"
             >
               <Server className="w-4 h-4 text-cyan-400" />
               <span>[ View Systems &amp; WALL-E Lab ]</span>
             </Link>
-          </motion.div>
+          </div>
 
-          {/* Telemetry Quick-Bar */}
+          {/* Telemetry Quick-Bar — keeps subtle entrance animation (decorative) */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
             className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full pt-8 text-left"
           >
             {telemetryMetrics.map((item) => {
@@ -469,7 +449,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
               <Link
                 href="/about#audit"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-mono text-xs sm:text-sm font-bold tracking-wider transition-all duration-200 shadow-lg shadow-emerald-500/20"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 min-h-[44px] rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-mono text-xs sm:text-sm font-bold tracking-wider transition-all duration-200 shadow-lg shadow-emerald-500/20"
               >
                 <ShieldCheck className="w-4 h-4 text-zinc-950" />
                 <span>[ Schedule a Technical Audit ]</span>

@@ -137,7 +137,7 @@ export function WallEServerCard() {
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-3">
             <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white font-mono flex items-center gap-2.5">
-              <Server className="w-6 h-6 text-emerald-400" />
+              <Server className="w-6 h-6 text-emerald-400" aria-hidden="true" />
               <span>WALL-E</span>
             </h3>
             <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-semibold">
@@ -147,19 +147,19 @@ export function WallEServerCard() {
               TrueNAS Core/Scale
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-zinc-400 font-mono flex flex-wrap items-center gap-x-2 gap-y-1">
-            <span className="text-zinc-300 font-medium">SPECS:</span>
+          <p className="text-xs sm:text-sm text-zinc-300 font-mono flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span className="text-zinc-200 font-semibold">SPECS:</span>
             <span>Intel Core i5 (3rd Gen)</span>
-            <span className="text-zinc-600">|</span>
+            <span className="text-zinc-500" aria-hidden="true">|</span>
             <span>16 GB DDR3 RAM</span>
-            <span className="text-zinc-600">|</span>
+            <span className="text-zinc-500" aria-hidden="true">|</span>
             <span className="text-emerald-400">Low TDP Energy Profile (~38W)</span>
           </p>
         </div>
 
         {/* Live Status Indicator */}
         <div className="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-zinc-950/80 border border-zinc-800 text-xs font-mono">
-          <span className="relative flex h-2.5 w-2.5">
+          <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
           </span>
@@ -167,7 +167,7 @@ export function WallEServerCard() {
             <span className="text-emerald-400 font-bold tracking-wide">
               UPTIME: 99.98%
             </span>
-            <span className="text-zinc-500 text-[10px]">
+            <span className="text-zinc-400 text-[10px] font-medium">
               ALL DAEMONS OPERATIONAL
             </span>
           </div>
@@ -177,17 +177,17 @@ export function WallEServerCard() {
       {/* Storage Pools Interactive Visualizer */}
       <div className="relative z-10 space-y-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs font-mono text-zinc-400">
-            <HardDrive className="w-4 h-4 text-cyan-400" />
-            <span className="text-zinc-200 font-bold uppercase tracking-wider">
+          <div className="flex items-center gap-2 text-xs font-mono text-zinc-300">
+            <HardDrive className="w-4 h-4 text-cyan-400" aria-hidden="true" />
+            <span className="text-zinc-100 font-bold uppercase tracking-wider">
               Storage Pools &amp; Data Tiering Visualizer
             </span>
-            <span className="text-zinc-600">{"//"}</span>
-            <span className="text-[11px] text-zinc-500 hidden sm:inline">
+            <span className="text-zinc-500" aria-hidden="true">{"//"}</span>
+            <span className="text-[11px] text-zinc-400 hidden sm:inline">
               Click a pool to inspect ZFS dataset properties
             </span>
           </div>
-          <span className="text-xs font-mono text-zinc-500">
+          <span className="text-xs font-mono text-zinc-400">
             TOTAL DISKS: 4
           </span>
         </div>
@@ -200,6 +200,8 @@ export function WallEServerCard() {
               <button
                 key={pool.id}
                 type="button"
+                aria-label={`Inspect ${pool.name}, ${pool.capacity}, ${pool.percent}% utilized`}
+                aria-pressed={isSelected}
                 onClick={() => setSelectedPoolId(pool.id)}
                 className={`p-4 rounded-xl text-left transition-all duration-200 border flex flex-col justify-between space-y-3 cursor-pointer ${
                   isSelected
@@ -227,13 +229,20 @@ export function WallEServerCard() {
                   </h4>
                 </div>
 
-                {/* Progress bar */}
+                {/* Accessible Progress bar */}
                 <div className="space-y-1 w-full font-mono">
-                  <div className="flex items-center justify-between text-[10px] text-zinc-500">
+                  <div className="flex items-center justify-between text-[10px] text-zinc-400 font-medium">
                     <span>{pool.used} used</span>
                     <span>{pool.percent}%</span>
                   </div>
-                  <div className="w-full h-1.5 rounded-full bg-zinc-800 overflow-hidden">
+                  <div
+                    role="progressbar"
+                    aria-valuenow={pool.percent}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-label={`${pool.name} storage utilization`}
+                    className="w-full h-1.5 rounded-full bg-zinc-800 overflow-hidden"
+                  >
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${
                         pool.percent > 70
@@ -256,9 +265,9 @@ export function WallEServerCard() {
               <span className="text-emerald-400 font-bold">&gt; [INSPECTING]</span>
               <span className="text-zinc-200 font-bold">{activePool.name}</span>
             </div>
-            <div className="flex items-center gap-4 text-[11px] text-zinc-500">
+            <div className="flex items-center gap-4 text-[11px] text-zinc-400 font-medium">
               <span className="flex items-center gap-1">
-                <Thermometer className="w-3 h-3 text-cyan-400" />
+                <Thermometer className="w-3.5 h-3.5 text-cyan-400" aria-hidden="true" />
                 {activePool.temperature}
               </span>
               <span>MOUNT: {activePool.mount}</span>
@@ -267,20 +276,20 @@ export function WallEServerCard() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-[11px]">
             <div className="space-y-0.5">
-              <span className="text-zinc-500 block">FILE SYSTEM / DATASET</span>
-              <span className="text-zinc-300 font-semibold">{activePool.filesystem}</span>
+              <span className="text-zinc-400 block font-medium">FILE SYSTEM / DATASET</span>
+              <span className="text-zinc-200 font-semibold">{activePool.filesystem}</span>
             </div>
             <div className="space-y-0.5">
-              <span className="text-zinc-500 block">IO PROFILE</span>
+              <span className="text-zinc-400 block font-medium">IO PROFILE</span>
               <span className="text-cyan-400 font-semibold">{activePool.iops}</span>
             </div>
             <div className="space-y-0.5">
-              <span className="text-zinc-500 block">INTEGRITY SCRUB</span>
+              <span className="text-zinc-400 block font-medium">INTEGRITY SCRUB</span>
               <span className="text-emerald-400 font-semibold">{activePool.scrubStatus}</span>
             </div>
           </div>
 
-          <p className="text-zinc-400 text-xs font-sans pt-1 leading-relaxed border-t border-zinc-900">
+          <p className="text-zinc-300 text-xs font-sans pt-1 leading-relaxed border-t border-zinc-900">
             {activePool.desc}
           </p>
         </div>
@@ -289,18 +298,18 @@ export function WallEServerCard() {
       {/* Deployed Self-Hosted Services Grid */}
       <div className="relative z-10 space-y-4 pt-2">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs font-mono text-zinc-400">
-            <Cpu className="w-4 h-4 text-emerald-400" />
-            <span className="text-zinc-200 font-bold uppercase tracking-wider">
+          <div className="flex items-center gap-2 text-xs font-mono text-zinc-300">
+            <Cpu className="w-4 h-4 text-emerald-400" aria-hidden="true" />
+            <span className="text-zinc-100 font-bold uppercase tracking-wider">
               Active Production Microservices
             </span>
-            <span className="text-zinc-600">{"//"}</span>
-            <span className="text-[11px] text-zinc-500 hidden sm:inline">
+            <span className="text-zinc-500" aria-hidden="true">{"//"}</span>
+            <span className="text-[11px] text-zinc-400 hidden sm:inline">
               Supervised via systemd &amp; isolated Docker runtimes
             </span>
           </div>
-          <span className="text-xs font-mono text-emerald-400 flex items-center gap-1">
-            <Radio className="w-3 h-3 animate-pulse" />
+          <span className="text-xs font-mono text-emerald-400 flex items-center gap-1 font-medium">
+            <Radio className="w-3.5 h-3.5 animate-pulse" aria-hidden="true" />
             4/4 HEALTHY
           </span>
         </div>
@@ -315,12 +324,12 @@ export function WallEServerCard() {
               >
                 <div className="flex items-center justify-between">
                   <div className="p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300">
-                    <Icon className="w-4 h-4 text-emerald-400" />
+                    <Icon className="w-4 h-4 text-emerald-400" aria-hidden="true" />
                   </div>
                   <span
                     className={`px-2 py-0.5 rounded text-[10px] font-mono font-semibold border ${svc.bgBadge} ${svc.statusColor} flex items-center gap-1`}
                   >
-                    <CheckCircle2 className="w-3 h-3" />
+                    <CheckCircle2 className="w-3 h-3" aria-hidden="true" />
                     {svc.status}
                   </span>
                 </div>
@@ -329,14 +338,14 @@ export function WallEServerCard() {
                   <h4 className="text-sm font-bold text-zinc-100 font-sans">
                     {svc.name}
                   </h4>
-                  <p className="text-xs text-zinc-400 font-sans mt-0.5">
+                  <p className="text-xs text-zinc-300 font-sans mt-0.5">
                     {svc.role}
                   </p>
                 </div>
 
-                <div className="pt-2 border-t border-zinc-800/60 flex items-center justify-between text-[10px] font-mono text-zinc-500">
+                <div className="pt-2 border-t border-zinc-800/60 flex items-center justify-between text-[10px] font-mono text-zinc-400 font-medium">
                   <span>{svc.port}</span>
-                  <span className="text-zinc-400">{svc.traffic}</span>
+                  <span className="text-zinc-300">{svc.traffic}</span>
                 </div>
               </div>
             );
