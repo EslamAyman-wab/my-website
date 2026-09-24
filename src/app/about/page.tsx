@@ -2,23 +2,18 @@
 
 import { useState } from "react";
 import {
-  AlertCircle,
   ArrowRight,
   Check,
   CheckCircle2,
+  Clock,
   Copy,
   Cpu,
   Database,
-  ExternalLink,
   HardDrive,
+  Lock,
   Mail,
-  MessageSquare,
-  Radio,
-  Send,
-  ShieldAlert,
   ShieldCheck,
   Terminal,
-  Zap,
 } from "lucide-react";
 
 function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
@@ -56,21 +51,37 @@ function LinkedinIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-export default function AboutPage() {
-  // Form State
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    contactHandle: "",
-    systemUrl: "",
-    bottleneck: "Database queries are slow / high latency",
-    description: "",
-  });
+function TelegramIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M21.5 2L2 9.5l7 3 2.5 7.5 3.5-4 4.5 3.5L21.5 2z" />
+      <path d="M9 12.5l7-6" />
+    </svg>
+  );
+}
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [ticketId, setTicketId] = useState("");
+export default function AboutPage() {
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittedTicket, setSubmittedTicket] = useState<string | null>(null);
+
+  // Form State
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [contactHandle, setContactHandle] = useState("");
+  const [systemUrl, setSystemUrl] = useState("");
+  const [selectedBottleneck, setSelectedBottleneck] = useState(
+    "Database queries are slow / high latency"
+  );
+  const [problemDescription, setProblemDescription] = useState("");
 
   const bottleneckOptions = [
     "Database queries are slow / high latency",
@@ -80,58 +91,59 @@ export default function AboutPage() {
     "Other technical challenge",
   ];
 
-  const engineeringPrinciples = [
-    {
-      id: "PRINCIPLE_01",
-      title: "Zero Silent Failures",
-      tag: "DEFENSIVE RUNTIMES",
-      desc: "Strict TypeScript typing, boundary validation, and structured telemetry. If an anomaly occurs, we detect and isolate it before the customer ever experiences downtime.",
-      icon: AlertCircle,
-      accent: "text-amber-400",
-      borderGlow: "hover:border-amber-500/40",
-    },
-    {
-      id: "PRINCIPLE_02",
-      title: "Data Integrity Above All",
-      tag: "TRANSACTION RELIABILITY",
-      desc: "ACID-compliant SQL isolation, declarative schema migrations, automated WAL archiving, and verified 3-2-1 backup pipelines. Zero data loss, ever.",
-      icon: Database,
-      accent: "text-emerald-400",
-      borderGlow: "hover:border-emerald-500/40",
-    },
-    {
-      id: "PRINCIPLE_03",
-      title: "Resource & Cost Awareness",
-      tag: "EFFICIENCY FIRST",
-      desc: "Optimizing query execution plans, memory buffers, and connection pooling before recommending expensive cloud server upgrades. Real engineering over brute force.",
-      icon: Cpu,
-      accent: "text-cyan-400",
-      borderGlow: "hover:border-cyan-500/40",
-    },
-  ];
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate audit intake processing
-    setTimeout(() => {
-      const generatedId = `DIAG-${Math.floor(100000 + Math.random() * 900000)}`;
-      setTicketId(generatedId);
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 1200);
-  };
-
   const handleCopyEmail = () => {
     navigator.clipboard.writeText("contact@systems-architect.dev");
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2500);
   };
 
+  const handleSubmitAudit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!fullName || !email) return;
+
+    setIsSubmitting(true);
+
+    // Simulate diagnostic dispatch processing
+    setTimeout(() => {
+      const ticketId = `AUDIT-${Math.floor(1000 + Math.random() * 9000)}`;
+      setSubmittedTicket(ticketId);
+      setIsSubmitting(false);
+    }, 1200);
+  };
+
+  const principles = [
+    {
+      id: "01",
+      title: "Zero Silent Failures",
+      tagline: "If something breaks, we know before the customer does.",
+      desc: "Strict TypeScript compilation boundaries, defensive input sanitization, and structured JSON logs correlated with OpenTelemetry trace spans. No swallowed exceptions, no untracked 500 errors.",
+      icon: Terminal,
+      color: "emerald",
+      badge: "OBSERVABILITY",
+    },
+    {
+      id: "02",
+      title: "Data Integrity Above All",
+      tagline: "No data loss. No corrupt transactions. Ever.",
+      desc: "ACID-compliant relational transactions with row-level locks, idempotent event consumer workers, and automated snapshot backup schemes tested through regular recovery drills.",
+      icon: Database,
+      color: "cyan",
+      badge: "DURABILITY",
+    },
+    {
+      id: "03",
+      title: "Resource & Cost Awareness",
+      tagline: "Efficiency before raw horsepower.",
+      desc: "Profiling EXPLAIN ANALYZE query execution trees, eliminating N+1 ORM overhead, and tuning memory allocations before asking a founder or team to upgrade expensive cloud instances.",
+      icon: Cpu,
+      color: "emerald",
+      badge: "EFFICIENCY",
+    },
+  ];
+
   return (
     <div className="relative min-h-screen bg-zinc-950 text-zinc-100 overflow-hidden bg-grid-pattern">
-      {/* Background Ambience */}
+      {/* Background Lighting Accents */}
       <div className="pointer-events-none absolute -top-40 right-1/4 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[140px]" />
       <div className="pointer-events-none absolute top-1/2 -left-40 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[140px]" />
 
@@ -139,7 +151,7 @@ export default function AboutPage() {
         {/* ========================================================================= */}
         {/* 1. PAGE HEADER                                                            */}
         {/* ========================================================================= */}
-        <div className="space-y-4 max-w-3xl">
+        <div className="space-y-4 max-w-4xl">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 text-xs font-mono text-emerald-400">
             <span className="font-bold">{"//"}</span>
             <span className="tracking-wider uppercase">
@@ -148,15 +160,15 @@ export default function AboutPage() {
           </div>
 
           <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white font-sans">
-            Built on Reliability, <br />
+            Built on Reliability,{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
               Not Vanity.
             </span>
           </h1>
 
-          <p className="text-base sm:text-lg text-zinc-400 font-sans leading-relaxed">
-            A backend-focused software engineer and systems hobbyist who treats software stability
-            and data integrity as non-negotiable foundations.
+          <p className="text-base sm:text-lg text-zinc-400 font-sans leading-relaxed max-w-3xl">
+            A backend-focused software engineer and systems hobbyist who treats software stability,
+            predictable latency, and data integrity as non-negotiable foundations.
           </p>
         </div>
 
@@ -164,88 +176,86 @@ export default function AboutPage() {
         {/* 2. THE STORY & ENGINEERING ETHOS                                          */}
         {/* ========================================================================= */}
         <section className="space-y-12">
-          {/* Why Backend & Infrastructure Deep-Dive */}
-          <div className="rounded-2xl bg-zinc-900/80 border border-zinc-800 p-8 sm:p-12 space-y-8 shadow-xl">
-            <div className="space-y-2 border-b border-zinc-800/80 pb-4">
-              <span className="text-xs font-mono text-cyan-400 font-semibold">
-                {"// ETHOS 01"}
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white font-sans">
+          {/* Why Backend & Infrastructure */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="lg:col-span-6 space-y-5">
+              <div className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400">
+                <span>{"// 01"}</span>
+                <span className="text-zinc-600">·</span>
+                <span>ENGINEERING PHILOSOPHY</span>
+              </div>
+              <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-white font-sans">
                 Why Backend &amp; Infrastructure?
               </h2>
+              <p className="text-sm sm:text-base text-zinc-400 leading-relaxed font-sans">
+                Anyone can build a sleek UI or slap together a template. But real engineering begins when thousands of concurrent users attempt to check out simultaneously, network sockets begin dropping, and database locks start stacking up.
+              </p>
+              <p className="text-sm sm:text-base text-zinc-400 leading-relaxed font-sans">
+                My passion is solving what happens beneath the surface: ensuring that when an edge proxy takes a hit, the application logic degrades gracefully instead of collapsing into a cascading outage.
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 text-sm sm:text-base text-zinc-300 font-sans leading-relaxed">
-              <div className="space-y-4">
-                <p>
-                  Anyone can make a user interface look modern with component libraries,
-                  but real engineering happens underneath when the traffic arrives. When a flash
-                  sale or viral launch floods an API with thousands of concurrent checkouts, flashy
-                  animations mean nothing if the database deadlocks or workers drop tasks.
-                </p>
-                <p className="text-zinc-400">
-                  I gravitated toward backend systems because that is where businesses actually succeed
-                  or fail. Data corruption, lost financial transactions, and minutes of downtime directly
-                  destroy trust and revenue.
-                </p>
-              </div>
-
-              <div className="p-6 rounded-xl bg-zinc-950/70 border border-zinc-800 space-y-4">
-                <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 font-semibold">
-                  <HardDrive className="w-4 h-4" />
-                  <span>THE WALL-E MENTALITY: HARDWARE MASTERY</span>
+            <div className="lg:col-span-6 rounded-2xl bg-zinc-900/80 border border-zinc-800 p-6 sm:p-8 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-lg bg-zinc-950 border border-zinc-800 text-emerald-400">
+                  <HardDrive className="w-5 h-5" />
                 </div>
-                <p className="text-sm text-zinc-300 leading-relaxed font-sans">
-                  My software engineering philosophy is grounded in physical hardware realities. Running
-                  a bare-metal TrueNAS server (WALL-E) taught me the value of resource budgeting,
-                  I/O constraints, copy-on-write file systems, and thermal headroom.
-                </p>
-                <p className="text-xs text-zinc-400 font-mono">
-                  &gt; Hands-on with Linux kernels · Docker container isolation · ZFS mirror datasets · Low-wattage 24/7 reliability.
-                </p>
+                <div>
+                  <h3 className="text-lg font-bold text-white font-sans">
+                    The &ldquo;WALL-E&rdquo; Mentality
+                  </h3>
+                  <span className="text-xs font-mono text-zinc-500">
+                    RESOURCEFULNESS &amp; HARDWARE RESPECT
+                  </span>
+                </div>
+              </div>
+              <p className="text-xs sm:text-sm text-zinc-300 font-sans leading-relaxed">
+                I built my primary homelab server—WALL-E—from repurposed bare-metal hardware. Running TrueNAS CORE, ZFS mirrored storage pools, and containerized microservices on an older machine forced me to understand resource constraints, I/O wait times, thermal budgets, and storage scrubbing at a hardware level.
+              </p>
+              <div className="p-3 rounded-lg bg-zinc-950 border border-zinc-800/80 font-mono text-xs text-zinc-400 flex items-center justify-between">
+                <span>HARDWARE MINDSET:</span>
+                <span className="text-emerald-400 font-semibold">
+                  DO MORE WITH LESS COMPUTE
+                </span>
               </div>
             </div>
           </div>
 
-          {/* 3 Core Engineering Principles Cards */}
+          {/* Core Engineering Principles Cards */}
           <div className="space-y-4">
-            <div className="flex items-center justify-between border-b border-zinc-800/80 pb-3">
-              <div className="flex items-center gap-2 text-xs font-mono text-zinc-400">
-                <Terminal className="w-4 h-4 text-emerald-400" />
-                <span className="font-bold text-zinc-200 uppercase tracking-wider">
-                  Core Engineering Principles
-                </span>
-              </div>
-              <span className="text-xs font-mono text-zinc-500">
-                DISCIPLINE: CODE &amp; INFRASTRUCTURE
-              </span>
+            <div className="text-xs font-mono text-zinc-500 uppercase tracking-wider">
+              {"// NON-NEGOTIABLE CORE PRINCIPLES"}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {engineeringPrinciples.map((item) => {
-                const Icon = item.icon;
+              {principles.map((p) => {
+                const Icon = p.icon;
                 return (
                   <div
-                    key={item.id}
-                    className={`p-6 sm:p-7 rounded-xl bg-zinc-900/60 border border-zinc-800/80 transition-all duration-300 space-y-3 flex flex-col justify-between ${item.borderGlow}`}
+                    key={p.id}
+                    className="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800/80 hover:border-zinc-700 transition-colors space-y-4 flex flex-col justify-between"
                   >
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono text-zinc-500 font-bold tracking-wider">
-                          [{item.tag}]
+                        <span className="text-xs font-mono font-bold text-emerald-400">
+                          [{p.id}]
                         </span>
-                        <Icon className={`w-4 h-4 ${item.accent}`} />
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-950 border border-zinc-800 text-zinc-400">
+                          {p.badge}
+                        </span>
                       </div>
-                      <h3 className="text-lg font-bold text-white font-sans">
-                        {item.title}
+                      <div className="p-2.5 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-200 w-fit">
+                        <Icon className="w-5 h-5 text-emerald-400" />
+                      </div>
+                      <h3 className="text-lg font-bold text-zinc-100 font-sans">
+                        {p.title}
                       </h3>
-                      <p className="text-xs sm:text-sm text-zinc-400 font-sans leading-relaxed">
-                        {item.desc}
+                      <div className="text-xs font-mono text-emerald-400 font-semibold">
+                        &ldquo;{p.tagline}&rdquo;
+                      </div>
+                      <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-sans">
+                        {p.desc}
                       </p>
-                    </div>
-
-                    <div className="pt-3 border-t border-zinc-800/60 font-mono text-[10px] text-zinc-500">
-                      ID: {item.id} · STANDARD: VERIFIED
                     </div>
                   </div>
                 );
@@ -255,238 +265,220 @@ export default function AboutPage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* 3. THE LEAD MAGNET: FREE BACKEND & INFRASTRUCTURE HEALTH-CHECK (#audit)   */}
+        {/* 3. THE LEAD MAGNET: FREE SYSTEM AUDIT FORM (#audit)                       */}
         {/* ========================================================================= */}
-        <section id="audit" className="scroll-mt-24 space-y-6">
-          <div className="rounded-2xl bg-zinc-900 border border-zinc-800 p-6 sm:p-12 space-y-8 relative overflow-hidden shadow-2xl">
+        <section id="audit" className="scroll-mt-24 space-y-8">
+          <div className="rounded-2xl bg-gradient-to-b from-zinc-900 via-zinc-900/90 to-zinc-950 border border-zinc-800 p-6 sm:p-12 space-y-8 relative overflow-hidden shadow-2xl">
             <div className="pointer-events-none absolute -right-24 -top-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
 
-            {/* Section Header */}
-            <div className="relative z-10 space-y-3 max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono text-emerald-400 font-semibold">
+            <div className="relative z-10 max-w-3xl space-y-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono text-emerald-400 font-semibold">
                 <ShieldCheck className="w-4 h-4" />
-                <span>CONFIDENTIAL 1-ON-1 SYSTEM AUDIT</span>
+                <span>CONFIDENTIAL 48-HOUR DIAGNOSTIC REVIEW</span>
               </div>
-
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight font-sans">
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-white font-sans tracking-tight">
                 Request a Free System Health-Check (Audit)
               </h2>
-
-              <p className="text-sm sm:text-base text-zinc-300 font-sans leading-relaxed">
+              <p className="text-sm sm:text-base text-zinc-400 font-sans leading-relaxed">
                 Experiencing slow API responses, high server bills, or fear of downtime during peak traffic?
                 Fill out this diagnostic intake and receive a concise 1-page action audit within 48 hours.
               </p>
             </div>
 
-            {/* Interactive Form or Success Terminal Screen */}
-            <div className="relative z-10">
-              {isSubmitted ? (
-                /* Terminal-styled Success Confirmation Receipt */
-                <div className="p-6 sm:p-8 rounded-xl bg-zinc-950 border border-emerald-500/40 font-mono text-xs space-y-6 shadow-xl">
-                  <div className="flex items-center justify-between border-b border-zinc-800 pb-4 text-emerald-400 font-bold">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-5 h-5" />
-                      <span>[DIAGNOSTICS_RECEIVED] INTAKE CONFIRMED</span>
-                    </div>
-                    <span className="text-zinc-500 text-[11px]">STATUS: 200 OK</span>
-                  </div>
-
-                  <div className="space-y-3 text-zinc-300">
-                    <p>
-                      <span className="text-zinc-500">TICKET_ID:</span>{" "}
-                      <span className="text-emerald-400 font-bold">{ticketId}</span>
-                    </p>
-                    <p>
-                      <span className="text-zinc-500">CLIENT:</span> {formData.name} &lt;{formData.email}&gt;
-                    </p>
-                    <p>
-                      <span className="text-zinc-500">SYSTEM TARGET:</span>{" "}
-                      {formData.systemUrl || "Not specified / Private environment"}
-                    </p>
-                    <p>
-                      <span className="text-zinc-500">IDENTIFIED BOTTLENECK:</span>{" "}
-                      <span className="text-cyan-400">{formData.bottleneck}</span>
-                    </p>
-                    <p className="text-zinc-400 font-sans text-xs pt-2 border-t border-zinc-800">
-                      I have queued your system parameters. I will analyze the symptoms and deliver an actionable 1-page technical audit report to your inbox within 48 hours.
-                    </p>
-                  </div>
-
-                  <div className="pt-2 flex flex-col sm:flex-row items-center gap-4">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsSubmitted(false);
-                        setFormData({
-                          name: "",
-                          email: "",
-                          contactHandle: "",
-                          systemUrl: "",
-                          bottleneck: bottleneckOptions[0],
-                          description: "",
-                        });
-                      }}
-                      className="px-4 py-2 rounded bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-700 font-mono text-xs transition-colors"
-                    >
-                      &gt; Submit Another System Diagnostic
-                    </button>
-
-                    <a
-                      href="mailto:contact@systems-architect.dev"
-                      className="text-xs text-emerald-400 hover:underline flex items-center gap-1 font-mono"
-                    >
-                      Need immediate assistance? Dispatch directly via email &rarr;
-                    </a>
-                  </div>
+            {/* Diagnostic Form or Submitted Success State */}
+            {submittedTicket ? (
+              <div className="p-6 sm:p-8 rounded-xl bg-zinc-950 border border-emerald-500/40 font-mono text-xs space-y-4">
+                <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                  <CheckCircle2 className="w-5 h-5" />
+                  <span>DIAGNOSTIC DISPATCH CONFIRMED</span>
                 </div>
-              ) : (
-                /* Diagnostic Form */
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Full Name / Company */}
-                    <div className="space-y-2">
-                      <label className="block text-xs font-mono text-zinc-300 uppercase tracking-wider font-semibold">
-                        Full Name / Company Name <span className="text-emerald-400">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.name}
-                        onChange={(e) =>
-                          setFormData({ ...formData, name: e.target.value })
-                        }
-                        placeholder="e.g. Alex Vance (Nexus SaaS)"
-                        className="w-full px-4 py-3 rounded-lg bg-zinc-950/80 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm font-sans transition-colors"
-                      />
-                    </div>
 
-                    {/* Email Address */}
-                    <div className="space-y-2">
-                      <label className="block text-xs font-mono text-zinc-300 uppercase tracking-wider font-semibold">
-                        Email Address <span className="text-emerald-400">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        value={formData.email}
-                        onChange={(e) =>
-                          setFormData({ ...formData, email: e.target.value })
-                        }
-                        placeholder="alex@nexus-saas.com"
-                        className="w-full px-4 py-3 rounded-lg bg-zinc-950/80 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm font-sans transition-colors"
-                      />
-                    </div>
+                <div className="p-4 rounded-lg bg-zinc-900/70 border border-zinc-800 space-y-2 text-zinc-300">
+                  <p>
+                    <span className="text-zinc-500">TICKET_ID:</span>{" "}
+                    <span className="text-emerald-400 font-bold">{submittedTicket}</span>
+                  </p>
+                  <p>
+                    <span className="text-zinc-500">CLIENT:</span> {fullName} ({email})
+                  </p>
+                  <p>
+                    <span className="text-zinc-500">PRIMARY_BOTTLENECK:</span>{" "}
+                    {selectedBottleneck}
+                  </p>
+                  <p>
+                    <span className="text-zinc-500">SLA_WINDOW:</span> &lt; 48 Hours
+                  </p>
+                </div>
 
-                    {/* Contact Handle */}
-                    <div className="space-y-2">
-                      <label className="block text-xs font-mono text-zinc-300 uppercase tracking-wider font-semibold">
-                        WhatsApp / Telegram Handle <span className="text-zinc-500">(Optional)</span>
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.contactHandle}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            contactHandle: e.target.value,
-                          })
-                        }
-                        placeholder="@username or +1 555-0199"
-                        className="w-full px-4 py-3 rounded-lg bg-zinc-950/80 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm font-sans transition-colors"
-                      />
-                    </div>
+                <p className="text-zinc-400 font-sans text-xs">
+                  Diagnostics request received. I will review your system architecture, inspect query/bottleneck patterns, and deliver a prioritized 1-page action plan to your email.
+                </p>
 
-                    {/* System URL */}
-                    <div className="space-y-2">
-                      <label className="block text-xs font-mono text-zinc-300 uppercase tracking-wider font-semibold">
-                        System URL or Store Link <span className="text-zinc-500">(Optional)</span>
-                      </label>
-                      <input
-                        type="url"
-                        value={formData.systemUrl}
-                        onChange={(e) =>
-                          setFormData({ ...formData, systemUrl: e.target.value })
-                        }
-                        placeholder="https://api.nexus-saas.com or store link"
-                        className="w-full px-4 py-3 rounded-lg bg-zinc-950/80 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm font-sans transition-colors"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Primary Bottleneck Selection Chips */}
-                  <div className="space-y-3">
-                    <label className="block text-xs font-mono text-zinc-300 uppercase tracking-wider font-semibold">
-                      Primary Bottleneck / Pain Point <span className="text-emerald-400">*</span>
+                <button
+                  type="button"
+                  onClick={() => setSubmittedTicket(null)}
+                  className="px-4 py-2 rounded bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 transition-colors"
+                >
+                  Submit Another System Audit
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmitAudit} className="space-y-6 relative z-10">
+                {/* Name & Contact Row */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label
+                      htmlFor="fullName"
+                      className="block text-xs font-mono text-zinc-400 uppercase tracking-wider"
+                    >
+                      Your Name / Company *
                     </label>
-                    <div className="flex flex-wrap gap-2.5">
-                      {bottleneckOptions.map((opt) => {
-                        const isSelected = formData.bottleneck === opt;
-                        return (
-                          <button
-                            key={opt}
-                            type="button"
-                            onClick={() =>
-                              setFormData({ ...formData, bottleneck: opt })
-                            }
-                            className={`px-3.5 py-2 rounded-lg text-xs font-mono text-left transition-all border ${
-                              isSelected
-                                ? "bg-emerald-500/15 border-emerald-500 text-emerald-300 font-semibold shadow-sm"
-                                : "bg-zinc-950/60 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700"
-                            }`}
-                          >
-                            {opt}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Brief Problem Description */}
-                  <div className="space-y-2">
-                    <label className="block text-xs font-mono text-zinc-300 uppercase tracking-wider font-semibold">
-                      Brief Problem Description &amp; Stack <span className="text-emerald-400">*</span>
-                    </label>
-                    <textarea
+                    <input
+                      id="fullName"
+                      type="text"
                       required
-                      rows={4}
-                      value={formData.description}
-                      onChange={(e) =>
-                        setFormData({ ...formData, description: e.target.value })
-                      }
-                      placeholder="Describe what happens under high load, your existing stack (e.g. Node.js + Postgres), error status codes, or cloud hosting setup..."
-                      className="w-full px-4 py-3 rounded-lg bg-zinc-950/80 border border-zinc-800 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-sm font-sans transition-colors"
+                      placeholder="e.g. Alex Morgan · ScaleOps SaaS"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="w-full px-4 py-3 rounded-lg bg-zinc-950/80 border border-zinc-800 text-zinc-100 placeholder:text-zinc-600 text-sm font-sans focus:outline-none focus:border-emerald-500 transition-colors"
                     />
                   </div>
 
-                  {/* Submit Action */}
-                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-zinc-950 font-mono text-xs sm:text-sm font-bold tracking-wider transition-all duration-200 shadow-lg shadow-emerald-500/20 group cursor-pointer"
+                  <div className="space-y-1.5">
+                    <label
+                      htmlFor="email"
+                      className="block text-xs font-mono text-zinc-400 uppercase tracking-wider"
                     >
-                      {isSubmitting ? (
-                        <>
-                          <Radio className="w-4 h-4 animate-spin" />
-                          <span>ANALYZING PARAMETERS...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Send className="w-4 h-4" />
-                          <span>[ Request Free Technical Audit ]</span>
-                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </>
-                      )}
-                    </button>
-
-                    <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
-                      <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                      <span>SLA: 1-Page Audit Within 48h · 100% Confidential</span>
-                    </div>
+                      Work Email Address *
+                    </label>
+                    <input
+                      id="email"
+                      type="email"
+                      required
+                      placeholder="alex@scaleops.io"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full px-4 py-3 rounded-lg bg-zinc-950/80 border border-zinc-800 text-zinc-100 placeholder:text-zinc-600 text-sm font-sans focus:outline-none focus:border-emerald-500 transition-colors"
+                    />
                   </div>
-                </form>
-              )}
-            </div>
+                </div>
+
+                {/* Contact Handle & System URL Row */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label
+                      htmlFor="contactHandle"
+                      className="block text-xs font-mono text-zinc-400 uppercase tracking-wider"
+                    >
+                      Telegram / WhatsApp Handle (Optional)
+                    </label>
+                    <input
+                      id="contactHandle"
+                      type="text"
+                      placeholder="@alex_scaleops"
+                      value={contactHandle}
+                      onChange={(e) => setContactHandle(e.target.value)}
+                      className="w-full px-4 py-3 rounded-lg bg-zinc-950/80 border border-zinc-800 text-zinc-100 placeholder:text-zinc-600 text-sm font-sans focus:outline-none focus:border-emerald-500 transition-colors"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label
+                      htmlFor="systemUrl"
+                      className="block text-xs font-mono text-zinc-400 uppercase tracking-wider"
+                    >
+                      System URL / API Endpoint / Store Link (Optional)
+                    </label>
+                    <input
+                      id="systemUrl"
+                      type="text"
+                      placeholder="https://api.scaleops.io"
+                      value={systemUrl}
+                      onChange={(e) => setSystemUrl(e.target.value)}
+                      className="w-full px-4 py-3 rounded-lg bg-zinc-950/80 border border-zinc-800 text-zinc-100 placeholder:text-zinc-600 text-sm font-sans focus:outline-none focus:border-emerald-500 transition-colors"
+                    />
+                  </div>
+                </div>
+
+                {/* Primary Bottleneck Selector */}
+                <div className="space-y-2">
+                  <label className="block text-xs font-mono text-zinc-400 uppercase tracking-wider">
+                    Primary Bottleneck / Pain Point *
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                    {bottleneckOptions.map((opt) => {
+                      const isSelected = selectedBottleneck === opt;
+                      return (
+                        <button
+                          key={opt}
+                          type="button"
+                          onClick={() => setSelectedBottleneck(opt)}
+                          className={`p-3 rounded-lg text-left text-xs font-mono transition-all border ${
+                            isSelected
+                              ? "bg-emerald-500/10 border-emerald-500/60 text-emerald-400 font-semibold"
+                              : "bg-zinc-950/60 border-zinc-800/80 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700"
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <span
+                              className={`h-2 w-2 rounded-full ${
+                                isSelected ? "bg-emerald-400" : "bg-zinc-700"
+                              }`}
+                            />
+                            <span>{opt}</span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Problem Description */}
+                <div className="space-y-1.5">
+                  <label
+                    htmlFor="problemDescription"
+                    className="block text-xs font-mono text-zinc-400 uppercase tracking-wider"
+                  >
+                    Brief Problem Description / Symptoms
+                  </label>
+                  <textarea
+                    id="problemDescription"
+                    rows={4}
+                    placeholder="Describe what happens under load: e.g. 'Postgres CPU hits 95% whenever we process over 500 orders/minute, causing checkout timeouts.'"
+                    value={problemDescription}
+                    onChange={(e) => setProblemDescription(e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg bg-zinc-950/80 border border-zinc-800 text-zinc-100 placeholder:text-zinc-600 text-sm font-sans focus:outline-none focus:border-emerald-500 transition-colors"
+                  />
+                </div>
+
+                {/* Submit Action Row */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
+                  <div className="flex items-center gap-3 text-xs font-mono text-zinc-500">
+                    <Lock className="w-4 h-4 text-emerald-400" />
+                    <span>NDAs respected. Zero unsolicited marketing.</span>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-mono text-xs sm:text-sm font-bold tracking-wider transition-all duration-200 shadow-lg shadow-emerald-500/20 disabled:opacity-50"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Clock className="w-4 h-4 animate-spin text-zinc-950" />
+                        <span>PROCESSING TELEMETRY...</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShieldCheck className="w-4 h-4 text-zinc-950" />
+                        <span>[ Request Free Technical Audit ]</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </section>
 
@@ -495,27 +487,29 @@ export default function AboutPage() {
         {/* ========================================================================= */}
         <section className="space-y-6 pb-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-800/80 pb-4">
-            <div>
+            <div className="space-y-1">
               <span className="text-xs font-mono text-emerald-400 font-semibold">
-                {"// CHANNELS 03"}
+                {"// SECTION 03"}
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white font-sans mt-0.5">
+              <h2 className="text-2xl sm:text-3xl font-bold text-zinc-100 font-sans">
                 Direct Channels &amp; Availability
               </h2>
             </div>
 
-            {/* Real-time Availability Pill */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono text-emerald-400 font-semibold shadow-inner">
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 font-mono text-xs text-zinc-300">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
-              <span>STATUS: ACCEPTING AUDITS &amp; CONTRACT PROJECTS</span>
+              <span className="text-zinc-500">STATUS:</span>
+              <span className="text-emerald-400 font-semibold">
+                ACCEPTING AUDITS &amp; CONTRACTS
+              </span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* GitHub Card */}
+            {/* GitHub */}
             <a
               href="https://github.com"
               target="_blank"
@@ -524,24 +518,21 @@ export default function AboutPage() {
             >
               <div className="flex items-center justify-between">
                 <div className="p-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-300 group-hover:text-emerald-400 transition-colors">
-                  <GithubIcon className="w-4 h-4" />
+                  <GithubIcon className="w-5 h-5" />
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-zinc-600 group-hover:text-emerald-400 transition-colors" />
+                <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-emerald-400 group-hover:translate-x-0.5 transition-all" />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-zinc-100 font-sans">
+                <h4 className="text-sm font-bold text-zinc-200 group-hover:text-white font-sans">
                   GitHub Profile
                 </h4>
-                <p className="text-xs text-zinc-400 font-sans mt-0.5">
-                  Inspect repositories, commits &amp; open source code
+                <p className="text-xs text-zinc-500 font-mono mt-0.5">
+                  Direct code inspection &amp; open source
                 </p>
               </div>
-              <span className="text-[11px] font-mono text-emerald-400 block pt-1">
-                &gt; View Codebase &rarr;
-              </span>
             </a>
 
-            {/* LinkedIn Card */}
+            {/* LinkedIn */}
             <a
               href="https://linkedin.com"
               target="_blank"
@@ -550,89 +541,81 @@ export default function AboutPage() {
             >
               <div className="flex items-center justify-between">
                 <div className="p-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-300 group-hover:text-cyan-400 transition-colors">
-                  <LinkedinIcon className="w-4 h-4" />
+                  <LinkedinIcon className="w-5 h-5" />
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-zinc-600 group-hover:text-cyan-400 transition-colors" />
+                <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all" />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-zinc-100 font-sans">
+                <h4 className="text-sm font-bold text-zinc-200 group-hover:text-white font-sans">
                   LinkedIn Network
                 </h4>
-                <p className="text-xs text-zinc-400 font-sans mt-0.5">
-                  Professional experience, background &amp; career track
+                <p className="text-xs text-zinc-500 font-mono mt-0.5">
+                  Professional experience &amp; recommendations
                 </p>
               </div>
-              <span className="text-[11px] font-mono text-cyan-400 block pt-1">
-                &gt; Connect on LinkedIn &rarr;
-              </span>
             </a>
 
-            {/* Direct Email Card with Copy Action */}
-            <div className="p-5 rounded-xl bg-zinc-900/60 border border-zinc-800/80 hover:border-zinc-700 transition-colors space-y-3 flex flex-col justify-between">
+            {/* Direct Email with Copy */}
+            <div className="p-5 rounded-xl bg-zinc-900/60 border border-zinc-800/80 hover:border-emerald-500/40 transition-colors space-y-3 group flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <div className="p-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-300">
-                    <Mail className="w-4 h-4 text-emerald-400" />
+                  <div className="p-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-300 group-hover:text-emerald-400 transition-colors">
+                    <Mail className="w-5 h-5" />
                   </div>
                   <button
                     type="button"
                     onClick={handleCopyEmail}
-                    className="text-[11px] font-mono px-2 py-1 rounded bg-zinc-950 border border-zinc-800 text-zinc-400 hover:text-emerald-400 transition-colors flex items-center gap-1 cursor-pointer"
-                    title="Copy Email"
+                    className="text-xs font-mono text-zinc-400 hover:text-emerald-400 flex items-center gap-1 transition-colors"
                   >
                     {copiedEmail ? (
                       <>
-                        <Check className="w-3 h-3 text-emerald-400" />
-                        <span className="text-emerald-400">Copied!</span>
+                        <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        <span className="text-emerald-400">Copied</span>
                       </>
                     ) : (
                       <>
-                        <Copy className="w-3 h-3" />
+                        <Copy className="w-3.5 h-3.5" />
                         <span>Copy</span>
                       </>
                     )}
                   </button>
                 </div>
-                <h4 className="text-sm font-bold text-zinc-100 font-sans">
+                <h4 className="text-sm font-bold text-zinc-200 group-hover:text-white font-sans">
                   Direct Email
                 </h4>
-                <p className="text-xs text-zinc-400 font-mono mt-0.5 break-all">
+                <p className="text-xs text-zinc-500 font-mono mt-0.5 break-all">
                   contact@systems-architect.dev
                 </p>
               </div>
-
               <a
-                href="mailto:contact@systems-architect.dev?subject=Systems%20Architecture%20Inquiry"
-                className="text-[11px] font-mono text-emerald-400 hover:underline pt-1 block"
+                href="mailto:contact@systems-architect.dev"
+                className="text-[11px] font-mono text-emerald-400 hover:underline pt-1 inline-block"
               >
-                &gt; Send Email Dispatch &rarr;
+                &gt; Launch mailto
               </a>
             </div>
 
-            {/* Direct Instant Chat Card */}
+            {/* Direct Telegram / WhatsApp */}
             <a
               href="https://t.me/"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-5 rounded-xl bg-zinc-900/60 border border-zinc-800/80 hover:border-emerald-500/40 transition-colors space-y-3 group"
+              className="p-5 rounded-xl bg-zinc-900/60 border border-zinc-800/80 hover:border-cyan-500/40 transition-colors space-y-3 group"
             >
               <div className="flex items-center justify-between">
-                <div className="p-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-300 group-hover:text-emerald-400 transition-colors">
-                  <MessageSquare className="w-4 h-4 text-emerald-400" />
+                <div className="p-2 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-300 group-hover:text-cyan-400 transition-colors">
+                  <TelegramIcon className="w-5 h-5" />
                 </div>
-                <ExternalLink className="w-3.5 h-3.5 text-zinc-600 group-hover:text-emerald-400 transition-colors" />
+                <ArrowRight className="w-4 h-4 text-zinc-600 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition-all" />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-zinc-100 font-sans">
-                  Instant Message
+                <h4 className="text-sm font-bold text-zinc-200 group-hover:text-white font-sans">
+                  Direct Messenger
                 </h4>
-                <p className="text-xs text-zinc-400 font-sans mt-0.5">
-                  WhatsApp / Telegram for rapid synchronous conversations
+                <p className="text-xs text-zinc-500 font-mono mt-0.5">
+                  Telegram / WhatsApp async triage
                 </p>
               </div>
-              <span className="text-[11px] font-mono text-emerald-400 block pt-1">
-                &gt; Launch Quick Connect &rarr;
-              </span>
             </a>
           </div>
         </section>
