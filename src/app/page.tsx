@@ -3,106 +3,110 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  Activity,
   ArrowRight,
   CheckCircle2,
   Cpu,
   Database,
   HardDrive,
-  Lock,
   Server,
-  ShieldCheck,
   Terminal,
   Zap,
 } from "lucide-react";
 
 export default function Home() {
-  const telemetryMetrics = [
+  const statusCards = [
     {
-      label: "TARGET LATENCY",
-      value: "< 50ms",
-      subtext: "Sub-millisecond query execution & edge cache hits",
-      icon: Zap,
+      label: "CURRENT FOCUS",
+      value: "Node.js core",
+      subtext:
+        "core modules, the event loop and HTTP servers — every topic committed with the code that proves it",
+      icon: Terminal,
       accent: "text-emerald-400",
       borderGlow: "group-hover:border-emerald-500/40",
     },
     {
       label: "CORE STACK",
       value: "Node.js · TS · SQL",
-      subtext: "Strict typing, relational integrity & async pipelines",
+      subtext:
+        "the stack I'm building on, in that order: JavaScript, then TypeScript, then data",
       icon: Database,
       accent: "text-cyan-400",
       borderGlow: "group-hover:border-cyan-500/40",
     },
     {
-      label: "INFRA MINDSET",
-      value: "99.9% Uptime",
-      subtext: "Resource budgeting, auto-recovery & zero data loss",
-      icon: Activity,
+      label: "HOMELAB",
+      value: "TrueNAS SCALE",
+      subtext:
+        "running on a repurposed i5-3470 with 16 GB RAM — where Linux, storage and limits stopped being theory",
+      icon: Server,
       accent: "text-zinc-200",
       borderGlow: "group-hover:border-zinc-400/40",
     },
   ];
 
-  const bottlenecks = [
+  const focusAreas = [
     {
       id: "01",
-      title: "Database Latency & Deadlocks",
-      symptom: "Symptom: High CPU, unindexed table scans, connection pool exhaustion under flash sales.",
+      title: "The Node.js runtime",
+      symptom:
+        "Studying: the event loop, non-blocking I/O, and why Node can hold many connections on a single thread.",
       solution:
-        "Fixing unindexed SQL queries, locking bottlenecks, query execution plan tuning, and implementing connection pooling with read replicas.",
-      diagnostic: "P99: 1400ms → 28ms · DEADLOCKS: 0",
-      icon: Database,
-      color: "emerald",
-    },
-    {
-      id: "02",
-      title: "Crash Resistance Under Peak Load",
-      symptom: "Symptom: API gateways timing out, memory leaks, and cascading server crashes.",
-      solution:
-        "Building resilient background queues, asynchronous task workers, backpressure management, and memory-safe Node.js cluster processes.",
-      diagnostic: "BACKPRESSURE: BUFFERED · UPTIME: 99.99%",
-      icon: Activity,
-      color: "cyan",
-    },
-    {
-      id: "03",
-      title: "Messy Code & Fragile APIs",
-      symptom: "Symptom: Uncaught runtime errors, lack of schema validation, untyped breaking payloads.",
-      solution:
-        "Restructuring legacy monolithic code into clean, strictly-typed TypeScript architectures with automated error tracking and robust contract tests.",
-      diagnostic: "TYPE SAFETY: 100% · UNCAUGHT ERR: 0",
+        "I write a small runnable example for every topic with the core modules — fs, path, events — and build the same server twice: once with the raw http module, once with Express, so I can see what the framework is hiding.",
+      diagnostic: "CHAPTER_01 COMMITTED",
       icon: Terminal,
       color: "emerald",
     },
     {
-      id: "04",
-      title: "Infrastructure & Data Loss Blindspots",
-      symptom: "Symptom: Single points of failure, missing snapshot verification, raw exposed ports.",
+      id: "02",
+      title: "HTTP servers & routing",
+      symptom:
+        "Studying: how a URL turns into a handler, plus status codes, request bodies and query strings.",
       solution:
-        "Implementing isolated Docker environments, reverse proxy configs with TLS termination, and rigorous automated 3-2-1 backup schemes.",
-      diagnostic: "ISOLATION: DOCKER · BACKUPS: AUTOMATED",
+        "Rebuilding the first server on Express and splitting the routes into their own file instead of letting one index.js grow forever.",
+      diagnostic: "IN PROGRESS",
       icon: Server,
+      color: "cyan",
+    },
+    {
+      id: "03",
+      title: "REST API design",
+      symptom:
+        "Studying: resources, consistent error responses, and validating input before it ever reaches the database.",
+      solution:
+        "Designing the endpoints for a small domain before writing handlers, so the shape of the API is a decision rather than an accident.",
+      diagnostic: "NEXT ON MY ROADMAP",
+      icon: Zap,
+      color: "emerald",
+    },
+    {
+      id: "04",
+      title: "Data & SQL",
+      symptom:
+        "Studying: relational modelling, writing queries, and keeping data access out of the route handlers.",
+      solution:
+        "Working through the roadmap I wrote in my Node.js-Learning repo, chapter by chapter, until a request survives a real database.",
+      diagnostic: "PLANNED",
+      icon: Database,
       color: "cyan",
     },
   ];
 
-  const coreBackendStack = [
-    { name: "Node.js & Express / Fastify", note: "Event-driven asynchronous event loop tuning" },
-    { name: "TypeScript", note: "End-to-end type safety and strict compiler boundaries" },
-    { name: "PostgreSQL & SQL", note: "Complex indexing, EXPLAIN ANALYZE query planning, ACID transactions" },
-    { name: "Redis Caching", note: "Distributed lock manager, session stores, and rate limiters" },
-    { name: "RESTful & Event APIs", note: "Idempotency keys, webhook queues, and semantic error codes" },
-    { name: "Clean Architecture", note: "Hexagonal decoupling of domain logic from transport protocols" },
+  const backendStack = [
+    { name: "JavaScript (ES6+)", note: "the foundation — 14 chapters of exercises, plus Edabit and CodeWars katas" },
+    { name: "Node.js core modules", note: "fs, path and events — practised with runnable examples instead of notes" },
+    { name: "Express", note: "routing and middleware; my first framework on top of the raw http module" },
+    { name: "TypeScript", note: "23 typed exercises so far, with the compiler enforcing the rules" },
+    { name: "SQL & data modelling", note: "next on the roadmap: relations, queries and a real data layer" },
+    { name: "Git & GitHub", note: "one commit per topic, a README per repo — nothing left undocumented" },
   ];
 
-  const systemsInfraStack = [
-    { name: "Linux CLI & Bash", note: "Kernel tuning, systemd process supervision, automated cron jobs" },
-    { name: "Docker Containerization", note: "Lightweight multi-stage builds, rootless containers, compose stacks" },
-    { name: "TrueNAS & ZFS Storage", note: "Copy-on-write datasets, scrubbing routines, snapshot replication" },
-    { name: "Reverse Proxies & Networking", note: "Nginx / Caddy, TLS certificates, load balancing, DNS routing" },
-    { name: "Hardware Management", note: "Bare-metal maintenance, thermal management, UPS failover automation" },
-    { name: "Observability & Telemetry", note: "Structured JSON logging, Prometheus metrics, Grafana dashboards" },
+  const homelabStack = [
+    { name: "TrueNAS SCALE", note: "the operating system on the repurposed i5-3470 that runs everything below" },
+    { name: "ZFS datasets", note: "separate pools for applications and data — snapshots instead of hope" },
+    { name: "Docker containers", note: "each service in its own container rather than installed on the host" },
+    { name: "Linux & the shell", note: "services, scheduled jobs and permissions — learned by breaking them first" },
+    { name: "Networking & TLS", note: "making self-hosted services reachable from outside without leaving them open" },
+    { name: "Backups & logging", note: "scheduled jobs that archive and report, so nothing fails silently" },
   ];
 
   return (
@@ -120,43 +124,44 @@ export default function Home() {
           <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-800 text-xs font-mono text-zinc-300 shadow-sm">
             <span className="text-emerald-400 font-bold">{"//"}</span>
             <span className="tracking-wider uppercase">
-              Specialized Backend &amp; Systems Architect
+              Backend Developer · Node.js &amp; TypeScript
             </span>
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
           </div>
 
           {/* Main Headline — plain h1 for immediate LCP */}
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl font-sans">
-            The Backbone of Scalable Applications &amp;{" "}
+            Learning how the backend works —{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
-              Resilient Systems.
+              and building in public.
             </span>
           </h1>
 
           {/* Sub-headline — plain p for immediate render */}
           <p className="text-base sm:text-lg lg:text-xl text-zinc-400 max-w-3xl leading-relaxed font-sans">
-            I architect high-throughput backend APIs, optimize sluggish SQL databases,
-            and build reliable server infrastructure. Helping SaaS platforms and
-            E-commerce stores stay fast, secure, and unbreakable under peak load.
+            I&apos;m Eslam Ayman, a backend developer based in Egypt. I&apos;m working through
+            Node.js from the runtime up — core modules, HTTP servers, REST APIs, databases — and
+            every topic ends up as code in a public repository with a README that explains what it
+            does and how to run it.
           </p>
 
           {/* Dual CTAs — plain div, min-h-[44px] for tap targets */}
           <div className="flex flex-col sm:flex-row items-center gap-4 pt-2 w-full sm:w-auto">
             <Link
-              href="/about#audit"
+              href="/projects"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 min-h-[44px] rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-mono text-xs sm:text-sm font-bold tracking-wider transition-all duration-200 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 group"
             >
-              <ShieldCheck className="w-4 h-4 text-zinc-950" />
-              <span>[ Request Free System Audit ]</span>
+              <Terminal className="w-4 h-4 text-zinc-950" />
+              <span>[ See What I&apos;m Building ]</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
 
             <Link
-              href="/projects"
+              href="/about"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 min-h-[44px] rounded-lg bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 hover:text-white border border-zinc-700/80 hover:border-zinc-500 font-mono text-xs sm:text-sm font-semibold tracking-wider transition-all duration-200"
             >
               <Server className="w-4 h-4 text-cyan-400" />
-              <span>[ View Systems &amp; WALL-E Lab ]</span>
+              <span>[ About Me &amp; My Setup ]</span>
             </Link>
           </div>
 
@@ -167,7 +172,7 @@ export default function Home() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full pt-8 text-left"
           >
-            {telemetryMetrics.map((item) => {
+            {statusCards.map((item) => {
               const IconComponent = item.icon;
               return (
                 <div
@@ -195,7 +200,7 @@ export default function Home() {
         </section>
 
         {/* ========================================================================= */}
-        {/* 2. BOTTLENECKS I SOLVE                                                    */}
+        {/* 2. STUDY LOG — WHAT I'M LEARNING RIGHT NOW                                */}
         {/* ========================================================================= */}
         <section className="space-y-10">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-zinc-800/80 pb-6">
@@ -203,22 +208,22 @@ export default function Home() {
               <div className="inline-flex items-center gap-2 text-xs font-mono text-emerald-400">
                 <span>{"// 01"}</span>
                 <span className="text-zinc-600">·</span>
-                <span>SYSTEM BOTTLENECK DIAGNOSTICS</span>
+                <span>CURRENT STUDY LOG</span>
               </div>
               <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-white font-sans">
-                Engineered Solutions for Critical System Bottlenecks
+                What I&apos;m Learning Right Now
               </h2>
               <p className="text-sm sm:text-base text-zinc-400 font-sans">
-                Where applications break under pressure, and how I fix them.
+                The topics on my desk today, and what each one looks like as code.
               </p>
             </div>
             <span className="hidden sm:inline-block font-mono text-xs text-zinc-500">
-              STATUS: ZERO-TOLERANCE TO DOWNTIME
+              STATUS: LEARNING IN PUBLIC
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {bottlenecks.map((item) => {
+            {focusAreas.map((item) => {
               const Icon = item.icon;
               return (
                 <div
@@ -231,7 +236,7 @@ export default function Home() {
                         <span className="text-emerald-400 font-semibold">
                           [{item.id}]
                         </span>
-                        <span>DIAGNOSTIC_MODULE</span>
+                        <span>TOPIC</span>
                       </div>
                       <div className="p-2 rounded-md bg-zinc-800/60 text-zinc-300 group-hover:text-emerald-400 transition-colors">
                         <Icon className="w-4 h-4" />
@@ -252,7 +257,7 @@ export default function Home() {
                   </div>
 
                   <div className="pt-4 border-t border-zinc-800/60 flex items-center justify-between text-[11px] font-mono">
-                    <span className="text-zinc-500">RESULT METRIC</span>
+                    <span className="text-zinc-500">STATUS</span>
                     <span className="text-emerald-400 font-semibold">
                       {item.diagnostic}
                     </span>
@@ -264,25 +269,25 @@ export default function Home() {
         </section>
 
         {/* ========================================================================= */}
-        {/* 3. ENGINEERING STACK & PRINCIPLES                                         */}
+        {/* 3. STACK & SETUP                                                          */}
         {/* ========================================================================= */}
         <section className="space-y-10">
           <div className="space-y-2 border-b border-zinc-800/80 pb-6">
             <div className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400">
               <span>{"// 02"}</span>
               <span className="text-zinc-600">·</span>
-              <span>TECHNICAL COMPETENCY &amp; DISCIPLINE</span>
+              <span>STACK &amp; SETUP</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-white font-sans">
-              Engineering Stack &amp; Principles
+              What I Work With
             </h2>
             <p className="text-sm sm:text-base text-zinc-400 font-sans">
-              Built on battle-tested technologies and high-resilience engineering standards.
+              The tools I&apos;m actually using day to day — and the hardware that runs them.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Column A: Core Backend Engine */}
+            {/* Column A: Backend */}
             <div className="p-6 sm:p-8 rounded-xl bg-zinc-900/60 border border-zinc-800/80 space-y-6">
               <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
                 <div className="flex items-center gap-3">
@@ -291,20 +296,20 @@ export default function Home() {
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-zinc-100 font-sans">
-                      Core Backend Engine
+                      Backend
                     </h3>
                     <p className="text-xs text-zinc-400 font-mono">
-                      High-throughput APIs &amp; Data Layers
+                      Runtime, language &amp; data
                     </p>
                   </div>
                 </div>
                 <span className="text-xs font-mono text-emerald-400 font-semibold px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
-                  APPLICATION
+                  LEARNING
                 </span>
               </div>
 
               <div className="space-y-3.5">
-                {coreBackendStack.map((tech) => (
+                {backendStack.map((tech) => (
                   <div
                     key={tech.name}
                     className="p-3 rounded-lg bg-zinc-950/60 border border-zinc-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4"
@@ -321,7 +326,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Column B: Systems & Infrastructure */}
+            {/* Column B: Homelab */}
             <div className="p-6 sm:p-8 rounded-xl bg-zinc-900/60 border border-zinc-800/80 space-y-6">
               <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
                 <div className="flex items-center gap-3">
@@ -330,20 +335,20 @@ export default function Home() {
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-zinc-100 font-sans">
-                      Systems &amp; Infrastructure
+                      Homelab
                     </h3>
                     <p className="text-xs text-zinc-400 font-mono">
-                      Bare-metal, Storage Pools &amp; Networking
+                      Hardware, storage &amp; self-hosting
                     </p>
                   </div>
                 </div>
                 <span className="text-xs font-mono text-cyan-400 font-semibold px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20">
-                  PLATFORM
+                  RUNNING
                 </span>
               </div>
 
               <div className="space-y-3.5">
-                {systemsInfraStack.map((tech) => (
+                {homelabStack.map((tech) => (
                   <div
                     key={tech.name}
                     className="p-3 rounded-lg bg-zinc-950/60 border border-zinc-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4"
@@ -375,36 +380,37 @@ export default function Home() {
               <div className="lg:col-span-8 space-y-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs font-mono text-cyan-400">
                   <HardDrive className="w-3.5 h-3.5" />
-                  <span>HOMELAB CASE STUDY // PROOF OF HARDWARE MASTERY</span>
+                  <span>HOMELAB // THE MACHINE BEHIND THIS SITE</span>
                 </div>
 
                 <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight font-sans">
-                  Meet WALL-E: Repurposed Hardware, Enterprise Reliability
+                  WALL-E: the desktop I refused to retire
                 </h2>
 
                 <p className="text-sm sm:text-base text-zinc-300 max-w-2xl leading-relaxed font-sans">
-                  See how I run media streaming, automated backup tiers, and secure cloud sync
-                  on a custom TrueNAS bare-metal machine. From ZFS pool configuration and
-                  scrub automation to thermal headroom tuning, WALL-E runs 24/7 with zero downtime.
+                  WALL-E is the third-generation i5 machine I used before my current PC. Rather than
+                  let it sit idle, it now runs TrueNAS SCALE with ZFS datasets and containerised
+                  services I depend on daily — and it&apos;s where Linux, storage and resource limits
+                  stopped being theory for me.
                 </p>
 
-                {/* Telemetry row */}
+                {/* Hardware row */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 font-mono text-xs">
                   <div className="p-2.5 rounded bg-zinc-950/70 border border-zinc-800">
-                    <span className="text-zinc-500 block text-[10px]">OS / KERNEL</span>
-                    <span className="text-zinc-200 font-bold">TrueNAS CORE</span>
+                    <span className="text-zinc-500 block text-[10px]">OS</span>
+                    <span className="text-zinc-200 font-bold">TrueNAS SCALE</span>
                   </div>
                   <div className="p-2.5 rounded bg-zinc-950/70 border border-zinc-800">
-                    <span className="text-zinc-500 block text-[10px]">STORAGE POOL</span>
-                    <span className="text-emerald-400 font-bold">ZFS RaidZ Mirror</span>
+                    <span className="text-zinc-500 block text-[10px]">STORAGE</span>
+                    <span className="text-emerald-400 font-bold">ZFS datasets</span>
                   </div>
                   <div className="p-2.5 rounded bg-zinc-950/70 border border-zinc-800">
-                    <span className="text-zinc-500 block text-[10px]">POWER DRAW</span>
-                    <span className="text-cyan-400 font-bold">~38W Idle</span>
+                    <span className="text-zinc-500 block text-[10px]">CPU</span>
+                    <span className="text-cyan-400 font-bold">Core i5-3470</span>
                   </div>
                   <div className="p-2.5 rounded bg-zinc-950/70 border border-zinc-800">
-                    <span className="text-zinc-500 block text-[10px]">CONTINUOUS UPTIME</span>
-                    <span className="text-zinc-200 font-bold">99.98%</span>
+                    <span className="text-zinc-500 block text-[10px]">MEMORY</span>
+                    <span className="text-zinc-200 font-bold">16 GB</span>
                   </div>
                 </div>
               </div>
@@ -414,11 +420,11 @@ export default function Home() {
                   href="/projects"
                   className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-zinc-950 font-mono text-xs sm:text-sm font-bold tracking-wider transition-all duration-200 shadow-lg shadow-cyan-500/20 group"
                 >
-                  <span>[ Inspect Server Architecture ]</span>
+                  <span>[ See The Server Setup ]</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <span className="text-[11px] font-mono text-zinc-500 mt-2">
-                  Full hardware breakdown &amp; network diagram
+                  Hardware, datasets and what runs on it
                 </span>
               </div>
             </div>
@@ -432,27 +438,28 @@ export default function Home() {
           <div className="rounded-xl bg-gradient-to-br from-zinc-900 via-zinc-900/90 to-zinc-950 border border-zinc-800 p-8 sm:p-12 text-center space-y-6 relative overflow-hidden">
             <div className="space-y-3 max-w-2xl mx-auto">
               <div className="inline-flex items-center gap-1.5 font-mono text-xs text-emerald-400 uppercase tracking-wider">
-                <Lock className="w-3.5 h-3.5" />
-                <span>CONFIDENTIAL &amp; ZERO OBLIGATION</span>
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                <span>OPEN TO JUNIOR BACKEND ROLES</span>
               </div>
 
               <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-white font-sans">
-                Experiencing slow response times or preparing for high traffic?
+                Looking for a junior backend developer who documents everything?
               </h2>
 
               <p className="text-sm sm:text-base text-zinc-400 font-sans leading-relaxed">
-                Whether you are troubleshooting locking database queries, migrating off a fragile monolith,
-                or hardening server infrastructure, let&apos;s run a comprehensive systems review.
+                I&apos;m at the start of my backend career and I&apos;m looking for a team where I
+                can keep learning on real problems. Everything I&apos;ve built is public — you can
+                read the code and the reasoning behind it before we ever talk.
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
               <Link
-                href="/about#audit"
+                href="/about#contact"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 min-h-[44px] rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-mono text-xs sm:text-sm font-bold tracking-wider transition-all duration-200 shadow-lg shadow-emerald-500/20"
               >
-                <ShieldCheck className="w-4 h-4 text-zinc-950" />
-                <span>[ Schedule a Technical Audit ]</span>
+                <CheckCircle2 className="w-4 h-4 text-zinc-950" />
+                <span>[ Get In Touch ]</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -460,15 +467,15 @@ export default function Home() {
             <div className="flex flex-wrap items-center justify-center gap-6 pt-4 text-xs font-mono text-zinc-500 border-t border-zinc-800/60 max-w-xl mx-auto">
               <span className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>45-Min Architecture Deep-Dive</span>
+                <span>Based in Egypt</span>
               </span>
               <span className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Actionable Bottleneck Report</span>
+                <span>Remote-friendly</span>
               </span>
               <span className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>SLA: &lt; 24h Response</span>
+                <span>Code public on GitHub</span>
               </span>
             </div>
           </div>

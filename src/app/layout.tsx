@@ -23,9 +23,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Backend Software Engineer & Systems Architect | The Backbone",
+  title: "Eslam Ayman — Backend Developer (Node.js & TypeScript)",
   description:
-    "High-performance backend architectures, database optimization, and self-hosted infrastructure.",
+    "Backend developer based in Egypt, learning Node.js, TypeScript and SQL in public. Public repositories, study log and a repurposed homelab server.",
 };
 
 export default function RootLayout({

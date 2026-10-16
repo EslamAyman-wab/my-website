@@ -52,22 +52,22 @@ export function Footer() {
               STACK:
             </span>
             <span className="text-zinc-300">
-              Node.js <span className="text-zinc-500" aria-hidden="true">·</span> TypeScript{" "}
-              <span className="text-zinc-500" aria-hidden="true">·</span> SQL (PostgreSQL){" "}
-              <span className="text-zinc-500" aria-hidden="true">·</span> Docker{" "}
-              <span className="text-zinc-500" aria-hidden="true">·</span> TrueNAS
+              Node.js <span className="text-zinc-500" aria-hidden="true">·</span> Express{" "}
+              <span className="text-zinc-500" aria-hidden="true">·</span> TypeScript{" "}
+              <span className="text-zinc-500" aria-hidden="true">·</span> SQL (in progress){" "}
+              <span className="text-zinc-500" aria-hidden="true">·</span> TrueNAS SCALE
             </span>
           </div>
 
           <div className="flex items-center gap-4 text-[11px] text-zinc-400 font-medium">
             <span className="flex items-center gap-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
-              UPTIME: 99.99%
+              LEARNING IN PUBLIC
             </span>
             <span className="text-zinc-600" aria-hidden="true">|</span>
-            <span className="text-zinc-300">NODE: HOMELAB-CORE-01</span>
+            <span className="text-zinc-300">BASED IN EGYPT</span>
             <span className="text-zinc-600" aria-hidden="true">|</span>
-            <span className="text-cyan-400 font-semibold">ENCRYPTED: TLSv1.3</span>
+            <span className="text-cyan-400 font-semibold">UTC+2</span>
           </div>
         </div>
 
@@ -77,11 +77,12 @@ export function Footer() {
           <div className="md:col-span-6 space-y-3">
             <div className="flex items-center gap-2 text-zinc-100 font-bold">
               <Terminal className="w-4 h-4 text-emerald-400" aria-hidden="true" />
-              <span>THE BACKBONE <span className="text-zinc-500" aria-hidden="true">{"//"}</span> SYSTEMS ARCHITECTURE</span>
+              <span>ESLAM AYMAN <span className="text-zinc-500" aria-hidden="true">{"//"}</span> BACKEND DEVELOPER</span>
             </div>
             <p className="text-zinc-300 text-xs font-sans leading-relaxed max-w-md">
-              &ldquo;Engineered as the backbone of resilient applications.&rdquo;
-              Specializing in low-latency APIs, distributed data pipelines, database reliability, and self-hosted infrastructure.
+              &ldquo;If it isn&apos;t in a repository, it isn&apos;t a skill yet.&rdquo;
+              Learning Node.js, TypeScript and SQL in the open — with the code, the READMEs and the
+              homelab server behind them.
             </p>
           </div>
 
@@ -98,7 +99,7 @@ export function Footer() {
                 >
                   <span>01</span>
                   <span className="text-zinc-500" aria-hidden="true">/</span>
-                  <span>Core Engine (Home)</span>
+                  <span>Home</span>
                 </Link>
               </li>
               <li>
@@ -108,7 +109,7 @@ export function Footer() {
                 >
                   <span>02</span>
                   <span className="text-zinc-500" aria-hidden="true">/</span>
-                  <span>Systems &amp; Homelab</span>
+                  <span>Projects &amp; Homelab</span>
                 </Link>
               </li>
               <li>
@@ -118,7 +119,7 @@ export function Footer() {
                 >
                   <span>03</span>
                   <span className="text-zinc-500" aria-hidden="true">/</span>
-                  <span>Profile &amp; Audit</span>
+                  <span>About &amp; Contact</span>
                 </Link>
               </li>
             </ul>
@@ -131,10 +132,10 @@ export function Footer() {
             </div>
             <div className="flex flex-col space-y-2 font-mono text-xs">
               <a
-                href="https://github.com"
+                href="https://github.com/EslamAyman-wab"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Visit GitHub Profile (opens in new tab)"
+                aria-label="Open my GitHub profile (opens in new tab)"
                 className="inline-flex items-center justify-between text-zinc-300 hover:text-emerald-400 transition-colors group"
               >
                 <span className="flex items-center gap-2">
@@ -145,10 +146,10 @@ export function Footer() {
               </a>
 
               <a
-                href="https://linkedin.com"
+                href="https://linkedin.com/in/eslamayman-web"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Visit LinkedIn Profile (opens in new tab)"
+                aria-label="Open my LinkedIn profile (opens in new tab)"
                 className="inline-flex items-center justify-between text-zinc-300 hover:text-cyan-400 transition-colors group"
               >
                 <span className="flex items-center gap-2">
@@ -158,19 +159,19 @@ export function Footer() {
                 <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-cyan-400 transition-colors" aria-hidden="true" />
               </a>
 
-              <a
-                href="mailto:contact@systems-architect.dev"
-                aria-label="Send email via terminal dispatch"
+              <Link
+                href="/about#contact"
+                aria-label="Contact me"
                 className="inline-flex items-center justify-between text-zinc-300 hover:text-emerald-400 transition-colors group"
               >
                 <span className="flex items-center gap-2">
                   <Mail className="w-3.5 h-3.5" aria-hidden="true" />
-                  <span>Terminal Dispatch</span>
+                  <span>Contact</span>
                 </span>
                 <span className="text-[11px] text-emerald-400 font-medium">
-                  [MAILTO]
+                  [OPEN TO WORK]
                 </span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -180,11 +181,11 @@ export function Footer() {
           <div className="flex items-center gap-1.5">
             <Shield className="w-3.5 h-3.5 text-zinc-400" aria-hidden="true" />
             <span suppressHydrationWarning>
-              &copy; {currentYear} Backbone Systems. All rights reserved.
+              &copy; {currentYear} Eslam Ayman. Built with Next.js.
             </span>
           </div>
           <div className="font-mono text-zinc-400">
-            HTTP_STATUS: <span className="text-emerald-400 font-semibold">200 OK</span> · HOST: PRODUCTION
+            DEPLOYED ON: <span className="text-emerald-400 font-semibold">VERCEL</span> · SOURCE: PUBLIC ON GITHUB
           </div>
         </div>
       </div>

@@ -7,124 +7,93 @@ import {
   Cpu,
   CheckCircle2,
   Radio,
-  Thermometer,
-  Film,
-  Image,
-  Cloud,
-  Bot,
+  Database,
+  LayoutDashboard,
+  Archive,
 } from "lucide-react";
 
 export function WallEServerCard() {
-  const [selectedPoolId, setSelectedPoolId] = useState<string>("pool-02");
+  const [selectedDatasetId, setSelectedDatasetId] = useState<string>("ds-02");
 
-  const storagePools = [
+  // Figures below were read off the host itself (df -h inside the container),
+  // not estimated. They are a snapshot, so they drift as the machine is used.
+  const datasets = [
     {
-      id: "pool-01",
-      name: "Pool 01: OS Root & System Caches",
-      type: "SSD",
-      capacity: "120 GB",
-      used: "42 GB",
-      percent: 35,
-      mount: "/mnt/system-root",
-      filesystem: "ZFS Mirror (ZRoot)",
-      iops: "High IOPS / NVMe Cache",
-      temperature: "32°C",
-      scrubStatus: "Scrubbed 4d ago (0 errors)",
-      desc: "Dedicated to TrueNAS OS kernel, container metadata, and ARC write/read staging for instant response times.",
+      id: "ds-01",
+      name: "Applications & Containers",
+      tag: "APPS",
+      capacity: "333 GB",
+      used: "32 GB",
+      percent: 10,
+      dataset: "disk01/ix-apps/docker",
+      pool: "disk01",
+      usedFor: "Container images and their data",
+      desc: "Docker's data root. Every self-hosted service on this machine runs from here in its own container, instead of being installed directly onto the host operating system.",
       color: "emerald",
     },
     {
-      id: "pool-02",
-      name: "Pool 02: Media Assets & Streaming",
-      type: "HDD",
-      capacity: "1.0 TB",
-      used: "740 GB",
-      percent: 74,
-      mount: "/mnt/tank/media-pool",
-      filesystem: "ZFS Dataset (Compression: lz4)",
-      iops: "Sequential Read Optimized",
-      temperature: "36°C",
-      scrubStatus: "Scrubbed 2d ago (0 errors)",
-      desc: "Dedicated high-density storage hosting the Jellyfin streaming library with direct-play audio/video catalogs.",
+      id: "ds-02",
+      name: "Agent Data & Automations",
+      tag: "DATA",
+      capacity: "425 GB",
+      used: "~1 GB",
+      percent: 1,
+      dataset: "disk02/hermes-agent",
+      pool: "disk02",
+      usedFor: "Agent workspace and scheduled jobs",
+      desc: "The dataset mounted into the agent container: its workspace, logs and the scheduled archive jobs it runs. This is the reason the machine is worth keeping powered on.",
       color: "cyan",
     },
     {
-      id: "pool-03",
-      name: "Pool 03: Vault, Repos & Cloud Sync",
-      type: "HDD",
-      capacity: "500 GB",
-      used: "215 GB",
-      percent: 43,
-      mount: "/mnt/tank/vault-data",
-      filesystem: "ZFS Encrypted Dataset",
-      iops: "Balanced Read/Write",
-      temperature: "34°C",
-      scrubStatus: "Scrubbed 6d ago (0 errors)",
-      desc: "Stores OwnCloud / NextCloud private sync directories, private git mirrors, and sensitive configuration vaults.",
-      color: "emerald",
-    },
-    {
-      id: "pool-04",
-      name: "Pool 04: Cold Backups & Disaster Recovery",
-      type: "HDD",
-      capacity: "160 GB",
-      used: "98 GB",
-      percent: 61,
-      mount: "/mnt/cold-archive",
-      filesystem: "ZFS Snapshot Destination",
-      iops: "Sequential Batch Writes",
-      temperature: "31°C",
-      scrubStatus: "Scrubbed 1d ago (0 errors)",
-      desc: "Isolated target for automated cron-triggered incremental ZFS snapshots, preserving disaster recovery points.",
+      id: "ds-03",
+      name: "Service Configuration",
+      tag: "CONFIG",
+      capacity: "425 GB",
+      used: "< 1 GB",
+      percent: 1,
+      dataset: "disk02/glance",
+      pool: "disk02",
+      usedFor: "Dashboard configuration",
+      desc: "A deliberately tiny dataset: one YAML file bind-mounted read-write into the dashboard container, so a configuration change is an edit on disk rather than a rebuild.",
       color: "zinc",
     },
   ];
 
-  const deployedServices = [
+  const services = [
     {
-      name: "Jellyfin",
-      role: "Media Server & Transcoding",
-      port: ":8096",
-      status: "Online",
+      name: "Hermes agent",
+      role: "Automation, scheduled jobs and reports",
+      mode: "Container",
+      status: "Running",
       statusColor: "text-emerald-400",
       bgBadge: "bg-emerald-500/10 border-emerald-500/30",
-      icon: Film,
-      traffic: "Direct Play Enforced",
+      icon: LayoutDashboard,
+      note: "Cron-driven tasks",
     },
     {
-      name: "Immich",
-      role: "High-Performance Photo Storage",
-      port: ":2283",
-      status: "Online",
+      name: "Glance dashboard",
+      role: "Self-hosted dashboard for the whole homelab",
+      mode: "Container",
+      status: "Running",
       statusColor: "text-emerald-400",
       bgBadge: "bg-emerald-500/10 border-emerald-500/30",
-      icon: Image,
-      traffic: "Background ML Indexing",
+      icon: Database,
+      note: "Config on disk02",
     },
     {
-      name: "OwnCloud / NextCloud",
-      role: "Data Sovereignty & Secure Sync",
-      port: ":443 / SSL",
-      status: "Online",
-      statusColor: "text-emerald-400",
-      bgBadge: "bg-emerald-500/10 border-emerald-500/30",
-      icon: Cloud,
-      traffic: "AES-256 Remote Sync",
-    },
-    {
-      name: "Hermes Agents",
-      role: "Automated Tasks, Cron & Probes",
-      port: "Daemon Worker",
-      status: "Active",
+      name: "Archive jobs",
+      role: "Scheduled backups of what I don't want to lose",
+      mode: "Cron",
+      status: "Scheduled",
       statusColor: "text-cyan-400",
       bgBadge: "bg-cyan-500/10 border-cyan-500/30",
-      icon: Bot,
-      traffic: "Telemetry & Health Checks",
+      icon: Archive,
+      note: "Runs on a timer",
     },
   ];
 
-  const activePool =
-    storagePools.find((p) => p.id === selectedPoolId) || storagePools[1];
+  const activeDataset =
+    datasets.find((d) => d.id === selectedDatasetId) || datasets[1];
 
   return (
     <div className="rounded-2xl bg-zinc-900/80 border border-zinc-800 p-6 sm:p-8 space-y-8 shadow-2xl relative overflow-hidden">
@@ -141,23 +110,23 @@ export function WallEServerCard() {
               <span>WALL-E</span>
             </h3>
             <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-semibold">
-              Bare-Metal HomeLab
+              Repurposed Desktop
             </span>
             <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-xs font-semibold">
-              TrueNAS Core/Scale
+              TrueNAS SCALE
             </span>
           </div>
           <p className="text-xs sm:text-sm text-zinc-300 font-mono flex flex-wrap items-center gap-x-2 gap-y-1">
             <span className="text-zinc-200 font-semibold">SPECS:</span>
-            <span>Intel Core i5 (3rd Gen)</span>
+            <span>Intel Core i5-3470</span>
             <span className="text-zinc-500" aria-hidden="true">|</span>
-            <span>16 GB DDR3 RAM</span>
+            <span>16 GB RAM</span>
             <span className="text-zinc-500" aria-hidden="true">|</span>
-            <span className="text-emerald-400">Low TDP Energy Profile (~38W)</span>
+            <span className="text-emerald-400">ZFS storage</span>
           </p>
         </div>
 
-        {/* Live Status Indicator */}
+        {/* Status Indicator — describes reality: it's up, and this site runs on it */}
         <div className="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-zinc-950/80 border border-zinc-800 text-xs font-mono">
           <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -165,44 +134,44 @@ export function WallEServerCard() {
           </span>
           <div className="flex flex-col">
             <span className="text-emerald-400 font-bold tracking-wide">
-              UPTIME: 99.98%
+              POWERED ON
             </span>
             <span className="text-zinc-400 text-[10px] font-medium">
-              ALL DAEMONS OPERATIONAL
+              THIS SITE IS BUILT ON IT
             </span>
           </div>
         </div>
       </div>
 
-      {/* Storage Pools Interactive Visualizer */}
+      {/* ZFS Datasets Interactive Visualizer */}
       <div className="relative z-10 space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-xs font-mono text-zinc-300">
             <HardDrive className="w-4 h-4 text-cyan-400" aria-hidden="true" />
             <span className="text-zinc-100 font-bold uppercase tracking-wider">
-              Storage Pools &amp; Data Tiering Visualizer
+              ZFS Datasets
             </span>
             <span className="text-zinc-500" aria-hidden="true">{"//"}</span>
             <span className="text-[11px] text-zinc-400 hidden sm:inline">
-              Click a pool to inspect ZFS dataset properties
+              Click a dataset to see what it holds
             </span>
           </div>
           <span className="text-xs font-mono text-zinc-400">
-            TOTAL DISKS: 4
+            POOLS: DISK01 · DISK02
           </span>
         </div>
 
-        {/* Disk Pool Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {storagePools.map((pool) => {
-            const isSelected = pool.id === selectedPoolId;
+        {/* Dataset Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {datasets.map((dataset) => {
+            const isSelected = dataset.id === selectedDatasetId;
             return (
               <button
-                key={pool.id}
+                key={dataset.id}
                 type="button"
-                aria-label={`Inspect ${pool.name}, ${pool.capacity}, ${pool.percent}% utilized`}
+                aria-label={`Inspect ${dataset.name}, ${dataset.used} of ${dataset.capacity} used`}
                 aria-pressed={isSelected}
-                onClick={() => setSelectedPoolId(pool.id)}
+                onClick={() => setSelectedDatasetId(dataset.id)}
                 className={`p-4 rounded-xl text-left transition-all duration-200 border flex flex-col justify-between space-y-3 cursor-pointer ${
                   isSelected
                     ? "bg-zinc-950 border-emerald-500/60 shadow-lg shadow-emerald-500/10 ring-1 ring-emerald-500/40"
@@ -211,45 +180,39 @@ export function WallEServerCard() {
               >
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <span
-                      className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase ${
-                        pool.type === "SSD"
-                          ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                          : "bg-cyan-500/10 text-cyan-400 border border-cyan-500/30"
-                      }`}
-                    >
-                      {pool.type}
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase bg-zinc-900 text-zinc-300 border border-zinc-700/80">
+                      {dataset.tag}
                     </span>
                     <span className="text-xs font-mono font-bold text-zinc-200">
-                      {pool.capacity}
+                      {dataset.capacity}
                     </span>
                   </div>
                   <h4 className="text-xs font-bold text-zinc-200 font-sans line-clamp-1">
-                    {pool.name.split(":")[1] || pool.name}
+                    {dataset.name}
                   </h4>
                 </div>
 
-                {/* Accessible Progress bar */}
+                {/* Accessible progress bar */}
                 <div className="space-y-1 w-full font-mono">
                   <div className="flex items-center justify-between text-[10px] text-zinc-400 font-medium">
-                    <span>{pool.used} used</span>
-                    <span>{pool.percent}%</span>
+                    <span>{dataset.used} used</span>
+                    <span>{dataset.percent}%</span>
                   </div>
                   <div
                     role="progressbar"
-                    aria-valuenow={pool.percent}
+                    aria-valuenow={dataset.percent}
                     aria-valuemin={0}
                     aria-valuemax={100}
-                    aria-label={`${pool.name} storage utilization`}
+                    aria-label={`${dataset.name} storage utilisation`}
                     className="w-full h-1.5 rounded-full bg-zinc-800 overflow-hidden"
                   >
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${
-                        pool.percent > 70
+                        dataset.percent > 70
                           ? "bg-gradient-to-r from-cyan-500 to-emerald-400"
                           : "bg-emerald-500"
                       }`}
-                      style={{ width: `${pool.percent}%` }}
+                      style={{ width: `${dataset.percent}%` }}
                     />
                   </div>
                 </div>
@@ -258,64 +221,66 @@ export function WallEServerCard() {
           })}
         </div>
 
-        {/* Selected Pool Inspector Panel */}
+        {/* Selected Dataset Inspector Panel */}
         <div className="p-4 rounded-xl bg-zinc-950 border border-zinc-800/90 font-mono text-xs space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800/60 pb-2">
             <div className="flex items-center gap-2">
               <span className="text-emerald-400 font-bold">&gt; [INSPECTING]</span>
-              <span className="text-zinc-200 font-bold">{activePool.name}</span>
+              <span className="text-zinc-200 font-bold">{activeDataset.name}</span>
             </div>
             <div className="flex items-center gap-4 text-[11px] text-zinc-400 font-medium">
               <span className="flex items-center gap-1">
-                <Thermometer className="w-3.5 h-3.5 text-cyan-400" aria-hidden="true" />
-                {activePool.temperature}
+                <Cpu className="w-3.5 h-3.5 text-cyan-400" aria-hidden="true" />
+                POOL: {activeDataset.pool}
               </span>
-              <span>MOUNT: {activePool.mount}</span>
+              <span>USED: {activeDataset.used}</span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-[11px]">
             <div className="space-y-0.5">
-              <span className="text-zinc-400 block font-medium">FILE SYSTEM / DATASET</span>
-              <span className="text-zinc-200 font-semibold">{activePool.filesystem}</span>
+              <span className="text-zinc-400 block font-medium">ZFS DATASET</span>
+              <span className="text-zinc-200 font-semibold">{activeDataset.dataset}</span>
             </div>
             <div className="space-y-0.5">
-              <span className="text-zinc-400 block font-medium">IO PROFILE</span>
-              <span className="text-cyan-400 font-semibold">{activePool.iops}</span>
+              <span className="text-zinc-400 block font-medium">USED FOR</span>
+              <span className="text-cyan-400 font-semibold">{activeDataset.usedFor}</span>
             </div>
             <div className="space-y-0.5">
-              <span className="text-zinc-400 block font-medium">INTEGRITY SCRUB</span>
-              <span className="text-emerald-400 font-semibold">{activePool.scrubStatus}</span>
+              <span className="text-zinc-400 block font-medium">CAPACITY</span>
+              <span className="text-emerald-400 font-semibold">
+                {activeDataset.capacity} · {activeDataset.percent}% in use
+              </span>
             </div>
           </div>
 
           <p className="text-zinc-300 text-xs font-sans pt-1 leading-relaxed border-t border-zinc-900">
-            {activePool.desc}
+            {activeDataset.desc}
           </p>
         </div>
       </div>
 
-      {/* Deployed Self-Hosted Services Grid */}
+      {/* Self-Hosted Services */}
       <div className="relative z-10 space-y-4 pt-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-xs font-mono text-zinc-300">
             <Cpu className="w-4 h-4 text-emerald-400" aria-hidden="true" />
             <span className="text-zinc-100 font-bold uppercase tracking-wider">
-              Active Production Microservices
+              Services I Run And Maintain
             </span>
             <span className="text-zinc-500" aria-hidden="true">{"//"}</span>
             <span className="text-[11px] text-zinc-400 hidden sm:inline">
-              Supervised via systemd &amp; isolated Docker runtimes
+              Only what I actually keep running is listed here
             </span>
           </div>
           <span className="text-xs font-mono text-emerald-400 flex items-center gap-1 font-medium">
             <Radio className="w-3.5 h-3.5 animate-pulse" aria-hidden="true" />
-            4/4 HEALTHY
+            LISTED: 3
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {deployedServices.map((svc) => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {services.map((svc) => {
             const Icon = svc.icon;
             return (
               <div
@@ -344,8 +309,8 @@ export function WallEServerCard() {
                 </div>
 
                 <div className="pt-2 border-t border-zinc-800/60 flex items-center justify-between text-[10px] font-mono text-zinc-400 font-medium">
-                  <span>{svc.port}</span>
-                  <span className="text-zinc-300">{svc.traffic}</span>
+                  <span>{svc.mode}</span>
+                  <span className="text-zinc-300">{svc.note}</span>
                 </div>
               </div>
             );

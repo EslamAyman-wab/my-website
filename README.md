@@ -66,8 +66,10 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## 💡 The Process
-The site is deliberately a plain Next.js app with no CMS and no database: content is typed data inside the page components, so adding a project means editing one array. Interactive pieces (the server card, the project cards) are the only client components — everything else stays a server component by default. My aim was to keep the frontend boring and predictable so my attention stays on the backend work this site is meant to present.
+## 📝 Notes on the Codebase
+- Content lives as typed arrays inside the page components — adding a project means editing one array, not a database.
+- Only the interactive pieces are client components (`"use client"`); the rest render on the server by default.
+- There is no CMS, no database and no API layer in this repository — it is a static marketing surface for the backend work that lives elsewhere.
 
 ---
 
