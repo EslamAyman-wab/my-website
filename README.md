@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# my-website — Portfolio & Engineering Hub
 
-## Getting Started
+My personal site: a small Next.js app that presents who I am, what I build, and the bare-metal infrastructure running underneath it. **Live at [gvara.site](https://gvara.site).**
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🛠️ Technologies
+- **Framework:** Next.js (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4 (via `@tailwindcss/postcss`)
+- **Animation:** Framer Motion
+- **Icons:** lucide-react
+- **Utilities:** clsx + tailwind-merge (`src/lib/utils.ts`)
+
+---
+
+## ✨ Key Features
+- **Home:** a telemetry-style hero that summarises my stack, latency target and uptime mindset.
+- **Projects:** each project is a problem → solution card (symptom, what I changed, measured result) instead of a plain list.
+- **About:** background, how I got into computers, and how I work.
+- **WALL-E server card:** an interactive component documenting my self-hosted TrueNAS machine — per-pool capacity, filesystem, mount point, temperatures and scrub status, plus the containers it runs.
+- **Responsive:** one layout that adapts from phone to desktop.
+
+---
+
+## 📁 Project Structure
+```
+src/
+├── app/
+│   ├── page.tsx            # home
+│   ├── about/page.tsx      # about
+│   ├── projects/page.tsx   # project cards
+│   ├── layout.tsx
+│   └── globals.css
+├── components/
+│   ├── Navbar.tsx
+│   ├── Footer.tsx
+│   └── WallEServerCard.tsx
+└── lib/utils.ts
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Running Locally
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# 1. Clone the repository
+git clone https://github.com/EslamAyman-wab/my-website.git
+cd my-website
 
-## Learn More
+# 2. Install dependencies
+npm install
 
-To learn more about Next.js, take a look at the following resources:
+# 3. Start the development server
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Script | What it does |
+| :--- | :--- |
+| `npm run dev` | Development server with hot reload |
+| `npm run build` | Production build |
+| `npm start` | Serve the production build |
+| `npm run lint` | ESLint |
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 💡 The Process
+The site is deliberately a plain Next.js app with no CMS and no database: content is typed data inside the page components, so adding a project means editing one array. Interactive pieces (the server card, the project cards) are the only client components — everything else stays a server component by default. My aim was to keep the frontend boring and predictable so my attention stays on the backend work this site is meant to present.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🔮 Ideas for Later
+- [ ] Move project data into a content layer (MDX) so posts and projects share one source.
+- [ ] Add a live status badge fed by my homelab uptime monitor.
+- [ ] Lighthouse pass: accessibility and image optimisation.
