@@ -23,6 +23,14 @@ My personal site: a small Next.js app that presents who I am, what I build, and 
 
 ---
 
+## 🎬 Preview
+
+![Homepage of gvara.site — hero section and status cards](docs/preview.png)
+
+The homepage of [gvara.site](https://gvara.site), captured from the live deployment.
+
+---
+
 ## 📁 Project Structure
 ```
 src/
